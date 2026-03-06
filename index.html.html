@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JGP Crédito — Tesouraria Fev/2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  /* Google palette */
+  --blue: #1a73e8;
+  --blue-light: #e8f0fe;
+  --blue-hover: #1765cc;
+  --green: #34a853;
+  --green-light: #e6f4ea;
+  --red: #ea4335;
+  --red-light: #fce8e6;
+  --yellow: #fbbc04;
+  --yellow-light: #fef7e0;
+
+  /* Surfaces */
+  --bg: #f8f9fa;
+  --surface: #ffffff;
+  --surface-dim: #f1f3f4;
+  --on-surface: #202124;
+  --on-surface-variant: #5f6368;
+  --outline: #dadce0;
+  --outline-variant: #e8eaed;
+
+  /* Elevation shadows */
+  --shadow-1: 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+  --shadow-2: 0 1px 2px 0 rgba(60,64,67,.3), 0 2px 6px 2px rgba(60,64,67,.15);
+  --shadow-3: 0 4px 8px 3px rgba(60,64,67,.15), 0 1px 3px rgba(60,64,67,.3);
+
+  /* Typography */
+  --font-display: 'Google Sans', 'Roboto', system-ui, sans-serif;
+  --font-body: 'Roboto', system-ui, sans-serif;
+  --font-mono: 'Roboto Mono', 'Consolas', monospace;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--on-surface);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #dadce0; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #bdc1c6; }
+
+/* ── HEADER ── */
+.hdr {
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.hdr-left { display: flex; align-items: center; gap: 16px; }
+.hdr-logo {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--on-surface);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hdr-logo .icon {
+  width: 32px;
+  height: 32px;
+  background: var(--blue);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+.hdr-tag {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--blue);
+  background: var(--blue-light);
+  padding: 4px 12px;
+  border-radius: 100px;
+}
+.hdr-r { display: flex; align-items: center; gap: 32px; }
+.hdr-i { text-align: right; }
+.hdr-i .l {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.hdr-i .v {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--on-surface);
+  font-weight: 500;
+}
+
+/* ── NAV ── */
+.nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--outline);
+  padding: 0 24px;
+  display: flex;
+  gap: 0;
+  position: sticky;
+  top: 64px;
+  z-index: 99;
+  overflow-x: auto;
+}
+.nav a {
+  padding: 14px 20px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--on-surface-variant);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.nav a:hover {
+  color: var(--blue);
+  background: var(--blue-light);
+}
+.nav a.on {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
+
+/* ── MAIN ── */
+.main { padding: 24px; max-width: 1600px; margin: 0 auto; }
+
+/* ── KPI STRIP ── */
+.kpi { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-bottom: 24px; }
+.kpi-c {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow-1);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.15s;
+  border: 1px solid var(--outline-variant);
+}
+.kpi-c:hover {
+  box-shadow: var(--shadow-2);
+  transform: translateY(-1px);
+}
+.kpi-c::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+.kpi-c:nth-child(1)::before { background: var(--blue); }
+.kpi-c:nth-child(2)::before { background: var(--green); }
+.kpi-c:nth-child(3)::before { background: #8ab4f8; }
+.kpi-c:nth-child(4)::before { background: #a142f4; }
+.kpi-c:nth-child(5)::before { background: var(--yellow); }
+.kpi-c:nth-child(6)::before { background: var(--red); }
+.kpi-l {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--on-surface-variant);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.kpi-v {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--on-surface);
+}
+.kpi-d {
+  font-size: 12px;
+  color: var(--on-surface-variant);
+  margin-top: 6px;
+  font-family: var(--font-mono);
+}
+
+.profit { color: var(--green) !important; }
+.loss { color: var(--red) !important; }
+.warn { color: #e37400 !important; }
+.accent { color: var(--blue) !important; }
+.muted { color: var(--on-surface-variant) !important; font-size: 12px !important; }
+.mono { font-family: var(--font-mono) !important; }
+
+/* ── SECTION TITLE ── */
+.sec {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--on-surface);
+  margin: 32px 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--outline);
+  scroll-margin-top: 140px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec .icon {
+  font-size: 20px;
+  color: var(--blue);
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--outline-variant);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-1);
+  transition: box-shadow 0.2s;
+}
+.card:hover { box-shadow: var(--shadow-2); }
+.card-h {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--outline-variant);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-t {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--on-surface);
+}
+.card-s {
+  font-size: 12px;
+  color: var(--on-surface-variant);
+  font-family: var(--font-mono);
+}
+.card-b { padding: 20px; }
+
+/* ── GRID ── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.g21 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
+
+/* ── TABLE ── */
+.tbl-w { overflow-x: auto; overflow-y: auto; max-height: 520px; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+thead { position: sticky; top: 0; z-index: 10; }
+th {
+  background: var(--surface-dim);
+  color: var(--on-surface-variant);
+  font-weight: 500;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  padding: 10px 14px;
+  text-align: right;
+  border-bottom: 2px solid var(--outline);
+  white-space: nowrap;
+}
+th:first-child { text-align: left; }
+td {
+  padding: 9px 14px;
+  text-align: right;
+  border-bottom: 1px solid var(--outline-variant);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--on-surface);
+  white-space: nowrap;
+}
+td:first-child {
+  text-align: left;
+  font-family: var(--font-body);
+  font-weight: 500;
+  color: var(--on-surface);
+}
+tr:hover td { background: var(--blue-light); }
+
+.neg-separator {
+  background: var(--red-light) !important;
+  color: var(--red) !important;
+  font-weight: 600 !important;
+  font-size: 11px !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 14px !important;
+  font-family: var(--font-body) !important;
+  text-align: left !important;
+}
+
+/* ── STAT ROW ── */
+.stats { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--outline-variant);
+  border-radius: 12px;
+  padding: 14px 20px;
+  flex: 1;
+  min-width: 160px;
+  box-shadow: var(--shadow-1);
+}
+.stat .sl {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--on-surface-variant);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+.stat .sv {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* ── BADGE ── */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+.badge.profit { background: var(--green-light); color: var(--green); }
+.badge.loss { background: var(--red-light); color: var(--red); }
+
+/* ── CHART ── */
+.ch { position: relative; width: 100%; }
+
+/* ── DIVIDER ── */
+hr.div { border: none; border-top: 1px solid var(--outline); margin: 32px 0; }
+
+/* ── FOOTER ── */
+.ftr {
+  text-align: center;
+  padding: 24px;
+  color: var(--on-surface-variant);
+  font-size: 12px;
+  border-top: 1px solid var(--outline);
+  margin-top: 40px;
+  background: var(--surface);
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1440px) { .kpi { grid-template-columns: repeat(3,1fr); } }
+@media(max-width:1024px) {
+  .kpi { grid-template-columns: repeat(2,1fr); }
+  .g2,.g21 { grid-template-columns: 1fr; }
+  .main { padding: 16px; }
+  .hdr,.nav { padding: 0 16px; }
+}
+@media(max-width:768px) {
+  .kpi { grid-template-columns: 1fr; }
+  .g3 { grid-template-columns: 1fr; }
+}
+@media print {
+  body { background: #fff; }
+  .hdr,.nav { position: static; box-shadow: none; }
+  .card { box-shadow: none; border: 1px solid #ddd; }
+  .kpi-c { box-shadow: none; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="hdr-logo">
+      <div class="icon">J</div>
+      JGP Crédito
+    </div>
+    <span class="hdr-tag">Tesouraria Fev/2026</span>
+  </div>
+  <div class="hdr-r">
+    <div class="hdr-i"><div class="l">Data-Base</div><div class="v">27/02/2026</div></div>
+    <div class="hdr-i"><div class="l">CDI Mês</div><div class="v" style="color:var(--blue)">0,997%</div></div>
+    <div class="hdr-i"><div class="l">Gerado</div><div class="v">05/03/2026 22:57</div></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav" id="nav">
+  <a href="#s1" class="on">Overview</a>
+  <a href="#s2">P&L Fundos</a>
+  <a href="#s3">Atribuição</a>
+  <a href="#s4">P&L Diário</a>
+  <a href="#s5">Performance vs CDI</a>
+  <a href="#s6">Spreads</a>
+  <a href="#s7">Dividendos</a>
+</div>
+
+<div class="main">
+
+<!-- ═══ S1: OVERVIEW ═══ -->
+<div id="s1" class="sec"><span class="material-icons-outlined icon">dashboard</span> Resumo Executivo</div>
+
+<div class="kpi">
+  <div class="kpi-c">
+    <div class="kpi-l">P&L Total</div>
+    <div class="kpi-v profit">R$ 198.41 mi</div>
+    <div class="kpi-d">43 fundos ativos</div>
+  </div>
+  <div class="kpi-c">
+    <div class="kpi-l">Carry</div>
+    <div class="kpi-v profit">R$ 220.01 mi</div>
+    <div class="kpi-d">110.9% do P&L</div>
+  </div>
+  <div class="kpi-c">
+    <div class="kpi-l">MTM Total</div>
+    <div class="kpi-v loss">R$ -22.10 mi</div>
+    <div class="kpi-d">Yield R$ -53.92 mi | Curva R$ 31.82 mi</div>
+  </div>
+  <div class="kpi-c">
+    <div class="kpi-l">Acima do CDI</div>
+    <div class="kpi-v accent">6 de 18</div>
+    <div class="kpi-d">fundos</div>
+  </div>
+  <div class="kpi-c">
+    <div class="kpi-l">Ativos CDI</div>
+    <div class="kpi-v">256</div>
+    <div class="kpi-d">0 abertura | 0 fech.</div>
+  </div>
+  <div class="kpi-c">
+    <div class="kpi-l">Δ Spread Médio</div>
+    <div class="kpi-v">+32.8 bps</div>
+    <div class="kpi-d">mediana: -0.1 bps</div>
+  </div>
+</div>
+
+<!-- Decomposição -->
+<div class="card">
+  <div class="card-h"><div class="card-t">Decomposição do Resultado</div></div>
+  <div class="card-b">
+    <table>
+      <thead><tr><th>Componente</th><th>Valor</th><th>% P&L Total</th><th>Direção</th></tr></thead>
+      <tbody><tr><td>Carry</td><td class="profit">R$ 220.01 mi</td><td>110.9%</td><td><span class="badge profit">Favorável</span></td></tr>
+<tr><td>MTM Total</td><td class="loss">R$ -22.10 mi</td><td>-11.1%</td><td><span class="badge loss">Desfavorável</span></td></tr>
+<tr><td>— MTM Yield</td><td class="loss">R$ -53.92 mi</td><td>-27.2%</td><td><span class="badge loss">Desfavorável</span></td></tr>
+<tr><td>— MTM Curva</td><td class="profit">R$ 31.82 mi</td><td>16.0%</td><td><span class="badge profit">Favorável</span></td></tr>
+</tbody>
+    </table>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ═══ S2: P&L FUNDOS ═══ -->
+<div id="s2" class="sec"><span class="material-icons-outlined icon">trending_up</span> Performance por Fundo — P&L Absoluto</div>
+
+<div class="card" style="margin-bottom:16px">
+  <div class="card-h"><div class="card-t">P&L por Fundo — Carry vs MTM</div><div class="card-s">Stacked horizontal</div></div>
+  <div class="card-b"><div class="ch" style="height:554px"><canvas id="c_pnl"></canvas></div></div>
+</div>
+
+<div class="card">
+  <div class="card-h"><div class="card-t">Top 10 + Negativos</div><div class="card-s">13 fundos</div></div>
+  <div class="tbl-w">
+    <table>
+      <thead><tr><th>Fundo</th><th>P&L Total</th><th>P&L (bps)</th><th>Carry</th><th>MTM Total</th><th>MTM (bps)</th><th>Ativos</th><th>NAV</th></tr></thead>
+      <tbody><tr><td>PREV</td><td class="profit">R$ 44.71 mi</td><td>94.78 bps</td><td class="profit">R$ 50.75 mi</td><td class="loss">R$ -6.04 mi</td><td>-12.81 bps</td><td>452</td><td>R$ 4.72 bi</td></tr>
+<tr><td>Infra CDI</td><td class="profit">R$ 19.65 mi</td><td>83.91 bps</td><td class="profit">R$ 22.86 mi</td><td class="loss">R$ -3.22 mi</td><td>-13.74 bps</td><td>311</td><td>R$ 2.34 bi</td></tr>
+<tr><td>PREV BRAD</td><td class="profit">R$ 19.05 mi</td><td>87.05 bps</td><td class="profit">R$ 24.87 mi</td><td class="loss">R$ -5.82 mi</td><td>-26.60 bps</td><td>277</td><td>R$ 2.19 bi</td></tr>
+<tr><td>QUANTA</td><td class="profit">R$ 17.67 mi</td><td>92.64 bps</td><td class="profit">R$ 19.43 mi</td><td class="loss">R$ -1.76 mi</td><td>-9.24 bps</td><td>190</td><td>R$ 1.91 bi</td></tr>
+<tr><td>CORP</td><td class="profit">R$ 9.47 mi</td><td>86.89 bps</td><td class="profit">R$ 12.80 mi</td><td class="loss">R$ -3.33 mi</td><td>-30.59 bps</td><td>239</td><td>R$ 1.09 bi</td></tr>
+<tr><td>Infra Layers</td><td class="profit">R$ 9.35 mi</td><td>104.07 bps</td><td class="profit">R$ 9.46 mi</td><td class="loss">R$ -110.7 mil</td><td>-1.23 bps</td><td>121</td><td>R$ 898.34 mi</td></tr>
+<tr><td>PLUS</td><td class="profit">R$ 7.55 mi</td><td>81.47 bps</td><td class="profit">R$ 10.09 mi</td><td class="loss">R$ -2.54 mi</td><td>-27.45 bps</td><td>349</td><td>R$ 926.58 mi</td></tr>
+<tr><td>SELECT</td><td class="profit">R$ 5.42 mi</td><td>89.05 bps</td><td class="profit">R$ 7.44 mi</td><td class="loss">R$ -2.01 mi</td><td>-33.03 bps</td><td>344</td><td>R$ 609.07 mi</td></tr>
+<tr><td>ECO</td><td class="profit">R$ 5.34 mi</td><td>95.99 bps</td><td class="profit">R$ 5.97 mi</td><td class="loss">R$ -628.8 mil</td><td>-11.31 bps</td><td>151</td><td>R$ 556.14 mi</td></tr>
+<tr><td>XP</td><td class="profit">R$ 4.59 mi</td><td>92.17 bps</td><td class="profit">R$ 6.05 mi</td><td class="loss">R$ -1.46 mi</td><td>-29.30 bps</td><td>351</td><td>R$ 497.74 mi</td></tr>
+<tr><td colspan="8" class="neg-separator">Fundos com Resultado Negativo</td></tr>
+<tr><td>JGPQ11*</td><td class="loss">R$ -1.53 mi</td><td class="loss">-49.30 bps</td><td class="profit">R$ 2.92 mi</td><td class="loss">R$ -4.44 mi</td><td>—</td><td>245</td><td>R$ 309.66 mi</td></tr>
+<tr><td>JGPI11*</td><td class="loss">R$ -716.1 mil</td><td class="loss">-19.03 bps</td><td class="profit">R$ 3.43 mi</td><td class="loss">R$ -4.14 mi</td><td>—</td><td>264</td><td>R$ 376.35 mi</td></tr>
+<tr><td>JGFA11*</td><td class="loss">R$ -229.6 mil</td><td class="loss">-30.12 bps</td><td class="profit">R$ 796.0 mil</td><td class="loss">R$ -1.03 mi</td><td>—</td><td>164</td><td>R$ 76.25 mi</td></tr>
+</tbody>
+    </table>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ═══ S3: ATRIBUIÇÃO ═══ -->
+<div id="s3" class="sec"><span class="material-icons-outlined icon">leaderboard</span> Atribuição de Performance — Top Ativos</div>
+
+<div class="g2" style="margin-bottom:16px">
+  <div class="card">
+    <div class="card-h"><div class="card-t">Top 10 Gainers</div><div class="card-s">Cross-fund</div></div>
+    <div class="tbl-w" style="max-height:400px">
+      <table>
+        <thead><tr><th>Empresa</th><th>CETIP</th><th>P&L Total</th><th>Carry</th><th>MTM Yield</th><th>MTM Curva</th><th>Fundos</th></tr></thead>
+        <tbody><tr><td>Csn Resources Sa</td><td class="mono">USL21779AL44</td><td class="profit">R$ 11.12 mi</td><td>R$ -680.4 mil</td><td class="profit">R$ 2.25 mi</td><td class="profit">R$ 9.54 mi</td><td>10</td></tr>
+<tr><td>Raizen Fuels Finance</td><td class="mono">RAIZBZ_32</td><td class="profit">R$ 7.75 mi</td><td>R$ -59.6 mil</td><td class="profit">R$ 2.20 mi</td><td class="profit">R$ 5.61 mi</td><td>3</td></tr>
+<tr><td>Opea Securitizadora</td><td class="mono">RBRAW3</td><td class="profit">R$ 3.72 mi</td><td>R$ 7.60 mi</td><td class="profit">R$ 204.8 mil</td><td class="loss">R$ -4.09 mi</td><td>25</td></tr>
+<tr><td>Rede Dor Sao Luiz S/A</td><td class="mono">RDORE4</td><td class="profit">R$ 3.36 mi</td><td>R$ 3.28 mi</td><td class="profit">R$ 72.7 mil</td><td class="profit">R$ 1.8 mil</td><td>20</td></tr>
+<tr><td>Rodovias do Brasil</td><td class="mono">RODB11</td><td class="profit">R$ 3.07 mi</td><td>R$ 3.16 mi</td><td class="loss">R$ -105.1 mil</td><td class="profit">R$ 13.8 mil</td><td>26</td></tr>
+<tr><td>SolFacil</td><td class="mono">FIDC SolFacil VI</td><td class="profit">R$ 3.00 mi</td><td>R$ 3.00 mi</td><td class="loss">R$ -316.77</td><td class="profit">R$ 0.25</td><td>16</td></tr>
+<tr><td>Banco XP S.A.</td><td class="mono">LFSN2500B9L</td><td class="profit">R$ 2.68 mi</td><td>R$ 2.69 mi</td><td class="loss">R$ -3.0 mil</td><td class="loss">R$ -62.07</td><td>15</td></tr>
+<tr><td>QMC Telecom</td><td class="mono">QMCT14</td><td class="profit">R$ 2.65 mi</td><td>R$ 1.46 mi</td><td class="profit">R$ 21.4 mil</td><td class="profit">R$ 1.17 mi</td><td>14</td></tr>
+<tr><td>Vital Eng. Ambiental</td><td class="mono">VTEG13</td><td class="profit">R$ 2.56 mi</td><td>R$ 1.66 mi</td><td class="profit">R$ 101.6 mil</td><td class="profit">R$ 799.3 mil</td><td>17</td></tr>
+<tr><td>Localiza Fleet S/A</td><td class="mono">TFLEA9</td><td class="profit">R$ 2.48 mi</td><td>R$ 2.17 mi</td><td class="profit">R$ 326.1 mil</td><td class="loss">R$ -19.0 mil</td><td>18</td></tr>
+</tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-t">Top 5 Losers</div><div class="card-s">Cross-fund</div></div>
+    <div class="tbl-w" style="max-height:400px">
+      <table>
+        <thead><tr><th>Empresa</th><th>CETIP</th><th>P&L Total</th><th>Carry</th><th>MTM Yield</th><th>MTM Curva</th><th>Fundos</th></tr></thead>
+        <tbody><tr><td>Braskem</td><td class="mono">BRKMA8</td><td class="loss">R$ -13.51 mi</td><td>R$ 4.81 mi</td><td class="loss">R$ -18.15 mi</td><td class="loss">R$ -169.6 mil</td><td>33</td></tr>
+<tr><td>CSN - Sid Nacional</td><td class="mono">CSNAA1</td><td class="loss">R$ -11.98 mi</td><td>R$ 2.06 mi</td><td class="loss">R$ -14.02 mi</td><td class="loss">R$ -17.7 mil</td><td>25</td></tr>
+<tr><td>Light</td><td class="mono">LIGT11</td><td class="loss">R$ -3.21 mi</td><td>R$ 0.00</td><td class="loss">R$ -3.21 mi</td><td class="profit">R$ 0.00</td><td>27</td></tr>
+<tr><td>CSN - Sid Nacional</td><td class="mono">CSNAA2</td><td class="loss">R$ -3.09 mi</td><td>R$ 927.6 mil</td><td class="loss">R$ -3.98 mi</td><td class="loss">R$ -34.6 mil</td><td>14</td></tr>
+<tr><td>Braskem</td><td class="mono">BRKMA6</td><td class="loss">R$ -2.54 mi</td><td>R$ 1.10 mi</td><td class="loss">R$ -3.60 mi</td><td class="loss">R$ -35.9 mil</td><td>22</td></tr>
+</tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-h"><div class="card-t">Gainers vs Losers — Waterfall</div></div>
+  <div class="card-b"><div class="ch" style="height:380px"><canvas id="c_wf"></canvas></div></div>
+</div>
+
+<hr class="div">
+
+<!-- ═══ S4: P&L DIÁRIO ═══ -->
+<div id="s4" class="sec"><span class="material-icons-outlined icon">calendar_today</span> Evolução Diária do P&L</div>
+
+<div class="stats">
+  <div class="stat"><div class="sl">Dias Positivos</div><div class="sv profit">15 de 18</div></div>
+  <div class="stat"><div class="sl">Dias Negativos</div><div class="sv loss">3</div></div>
+  <div class="stat"><div class="sl">Melhor Sessão</div><div class="sv profit">05/02 — R$ 30.36 mi</div></div>
+  <div class="stat"><div class="sl">Pior Sessão</div><div class="sv loss">13/02 — R$ -8.10 mi</div></div>
+  <div class="stat"><div class="sl">Média Diária</div><div class="sv">R$ 11.02 mi</div></div>
+</div>
+
+<div class="g2" style="margin-bottom:16px">
+  <div class="card">
+    <div class="card-h"><div class="card-t">P&L Diário</div></div>
+    <div class="card-b"><div class="ch" style="height:340px"><canvas id="c_dia"></canvas></div></div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-t">P&L Acumulado</div></div>
+    <div class="card-b"><div class="ch" style="height:340px"><canvas id="c_acum"></canvas></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-h"><div class="card-t">Detalhes por Sessão</div></div>
+  <div class="tbl-w" style="max-height:420px">
+    <table>
+      <thead><tr><th>Data</th><th>P&L Diário</th><th>Acumulado</th><th>Status</th></tr></thead>
+      <tbody><tr><td>02/02</td><td class="profit">R$ 4.62 mi</td><td>R$ 4.62 mi</td><td><span class="badge profit">Positivo</span></td></tr>
+<tr><td>03/02</td><td class="profit">R$ 10.84 mi</td><td>R$ 15.46 mi</td><td><span class="badge profit">Positivo</span></td></tr>
+<tr><td>04/02</td><td class="profit">R$ 9.02 mi</td><td>R$ 24.48 mi</td><td><span class="badge profit">Positivo</span></td></tr>
+<tr><td>05/02</td><td class="profit">R$ 30.36 mi</td><td>R$ 54.84 mi</td><td><span class="badge profit">Positivo</span></td></tr>
+<tr><td>06/02</td><td class="profit">R$ 11.69 mi</td><td>R$ 66.52 mi</td><td><span class="badge profit">Positivo</span></td></tr>
+<tr><td>09/02</td><td class="loss">R$ -2.73 mi</td><td>R$ 63.80 mi</td><td><span class="badge loss">Negativo</span></td></tr>
+<tr><td>10/02</td><td class="profit">R$ 26.49 mi</td><td>R$ 90.29 mi</td><td><span class="badge profit">Positivo</span></td></tr>
+<tr><td>11/02</td><td class="loss">R$ -3.61 mi</td><td>R$ 86.67 mi</td><td><span class="badge loss">Negativo</span></td></tr>
+<tr><td>12/02</td><td class="profit">R$ 7.62 mi</td><td>R$ 94.29 mi</td><td><span class="badge profit">Positivo</span></td></tr>
+<tr><td>13/02</td><td class="loss">R$ -8.10 mi</td><td>R$ 86.19 mi</td><td><span class="badge loss">Negativo</span></td></tr>
+<tr><td>18/02</td><td class="profit">R$ 9.58 mi</td><td>R$ 95.78 mi</td><td><span class="badge profit">Positivo</span></td></tr>
+<tr><td>19/02</td><td class="profit">R$ 14.28 mi</td><td>R$ 110.05 mi</td><td><span class="badge profit">Positivo</span></td></tr>
+<tr><td>20/02</td><td class="profit">R$ 20.82 mi</td><td>R$ 130.87 mi</td><td><span class="badge profit">Positivo</span></td></tr>
+<tr><td>23/02</td><td class="profit">R$ 857.4 mil</td><td>R$ 131.72 mi</td><td><span class="badge profit">Positivo</span></td></tr>
+<tr><td>24/02</td><td class="profit">R$ 18.16 mi</td><td>R$ 149.89 mi</td><td><span class="badge profit">Positivo</span></td></tr>
+<tr><td>25/02</td><td class="profit">R$ 11.64 mi</td><td>R$ 161.52 mi</td><td><span class="badge profit">Positivo</span></td></tr>
+<tr><td>26/02</td><td class="profit">R$ 27.59 mi</td><td>R$ 189.11 mi</td><td><span class="badge profit">Positivo</span></td></tr>
+<tr><td>27/02</td><td class="profit">R$ 9.30 mi</td><td>R$ 198.41 mi</td><td><span class="badge profit">Positivo</span></td></tr>
+</tbody>
+    </table>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ═══ S5: CDI ═══ -->
+<div id="s5" class="sec"><span class="material-icons-outlined icon">analytics</span> Desempenho vs CDI — Retorno Relativo</div>
+
+<div class="card" style="margin-bottom:16px">
+  <div class="card-h"><div class="card-t">%CDI por Fundo</div><div class="card-s">Verde ≥100% | Laranja 90-100% | Vermelho &lt;90%</div></div>
+  <div class="card-b"><div class="ch" style="height:672px"><canvas id="c_cdi"></canvas></div></div>
+</div>
+
+<div class="card">
+  <div class="card-h"><div class="card-t">Tabela Completa — Retorno vs CDI</div></div>
+  <div class="tbl-w">
+    <table>
+      <thead><tr><th>Fundo</th><th>Ret.Mês(%)</th><th>%CDI</th><th>Alpha(bps)</th><th>Ret.Ano(%)</th><th>%CDI Ano</th><th>Spread(%)</th><th>Duration</th></tr></thead>
+      <tbody><tr><td>Infra Ima-B</td><td>1.1787%</td><td class="profit">118.2%</td><td class="profit">18.2</td><td>3.5546%</td><td class="profit">163.6%</td><td>0.58%</td><td>6.59</td></tr>
+<tr><td>Jardim Botânico</td><td>1.0596%</td><td class="profit">106.3%</td><td class="profit">6.3</td><td>2.3208%</td><td class="profit">106.8%</td><td>1.12%</td><td>3.51</td></tr>
+<tr><td>CORP_III_MST</td><td>1.0518%</td><td class="profit">105.5%</td><td class="profit">5.5</td><td>2.3753%</td><td class="profit">109.3%</td><td>1.10%</td><td>4.00</td></tr>
+<tr><td>CORP_III</td><td>1.0357%</td><td class="profit">103.9%</td><td class="profit">3.9</td><td>2.3399%</td><td class="profit">107.7%</td><td>-</td><td>-</td></tr>
+<tr><td>MIRANTE</td><td>1.0314%</td><td class="profit">103.4%</td><td class="profit">3.4</td><td>2.2281%</td><td class="profit">102.5%</td><td>1.13%</td><td>2.88</td></tr>
+<tr><td>PETROS</td><td>1.0224%</td><td class="profit">102.5%</td><td class="profit">2.5</td><td>2.3140%</td><td class="profit">106.5%</td><td>1.07%</td><td>2.82</td></tr>
+<tr><td>PREMIUM</td><td>0.7755%</td><td class="loss">77.8%</td><td class="loss">-22.1</td><td>2.1635%</td><td class="warn">99.6%</td><td>3.06%</td><td>2.99</td></tr>
+<tr><td>JR</td><td>0.7869%</td><td class="loss">78.9%</td><td class="loss">-21.0</td><td>3.0304%</td><td class="profit">139.5%</td><td>1.71%</td><td>4.80</td></tr>
+<tr><td>PLUS</td><td>0.8038%</td><td class="loss">80.6%</td><td class="loss">-19.3</td><td>2.2380%</td><td class="profit">103.0%</td><td>2.34%</td><td>3.08</td></tr>
+<tr><td>PREV BRAD</td><td>0.8272%</td><td class="loss">83.0%</td><td class="loss">-17.0</td><td>2.1400%</td><td class="warn">98.5%</td><td>1.78%</td><td>3.19</td></tr>
+<tr><td>Infra CDI</td><td>0.8462%</td><td class="loss">84.9%</td><td class="loss">-15.1</td><td>2.7032%</td><td class="profit">124.4%</td><td>1.42%</td><td>4.69</td></tr>
+<tr><td>CORP</td><td>0.8596%</td><td class="loss">86.2%</td><td class="loss">-13.7</td><td>2.2005%</td><td class="profit">101.3%</td><td>2.03%</td><td>3.11</td></tr>
+<tr><td>XP</td><td>0.8864%</td><td class="loss">88.9%</td><td class="loss">-11.1</td><td>2.2511%</td><td class="profit">103.6%</td><td>2.41%</td><td>3.28</td></tr>
+<tr><td>SELECT</td><td>0.8882%</td><td class="loss">89.1%</td><td class="loss">-10.9</td><td>2.4114%</td><td class="profit">111.0%</td><td>2.46%</td><td>3.04</td></tr>
+<tr><td>BLAZER</td><td>0.8941%</td><td class="loss">89.7%</td><td class="loss">-10.3</td><td>2.1636%</td><td class="warn">99.6%</td><td>1.50%</td><td>3.46</td></tr>
+<tr><td>ITAU PREV</td><td>0.8174%</td><td class="warn">92.3%</td><td class="loss">-6.8</td><td>2.1910%</td><td class="profit">106.3%</td><td>1.66%</td><td>3.28</td></tr>
+<tr><td>ALBA</td><td>0.9255%</td><td class="warn">92.8%</td><td class="loss">-7.2</td><td>2.1495%</td><td class="warn">98.9%</td><td>1.33%</td><td>3.21</td></tr>
+<tr><td>NESTON</td><td>0.9324%</td><td class="warn">93.5%</td><td class="loss">-6.5</td><td>2.1807%</td><td class="profit">100.4%</td><td>1.32%</td><td>3.26</td></tr>
+</tbody>
+    </table>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ═══ S6: SPREADS ═══ -->
+<div id="s6" class="sec"><span class="material-icons-outlined icon">ssid_chart</span> Variação de Spread — Carteira CDI</div>
+
+<div class="g2" style="margin-bottom:16px">
+  <div class="card">
+    <div class="card-h"><div class="card-t">Distribuição Δ Spread</div><div class="card-s">256 ativos</div></div>
+    <div class="card-b"><div class="ch" style="height:300px"><canvas id="c_sdist"></canvas></div></div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-t">Distribuição por Faixa</div></div>
+    <div class="card-b">
+      <table>
+        <thead><tr><th>Faixa</th><th>Qtd Ativos</th><th>% do Total</th></tr></thead>
+        <tbody><tr><td>< -50 bps</td><td>7</td><td>2.7%</td></tr>
+<tr><td>-50 a -20</td><td>5</td><td>2.0%</td></tr>
+<tr><td>-20 a -5</td><td>14</td><td>5.5%</td></tr>
+<tr><td>-5 a +5</td><td>190</td><td>74.2%</td></tr>
+<tr><td>+5 a +20</td><td>11</td><td>4.3%</td></tr>
+<tr><td>+20 a +50</td><td>17</td><td>6.6%</td></tr>
+<tr><td>> +50 bps</td><td>12</td><td>4.7%</td></tr>
+</tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="g2">
+  <div class="card">
+    <div class="card-h"><div class="card-t">Top 15 — Maiores Aberturas</div><div class="card-s">Spread widening</div></div>
+    <div class="tbl-w" style="max-height:420px">
+      <table>
+        <thead><tr><th>#</th><th>Ativo</th><th>Empresa</th><th>Tipo</th><th>Δ BPS</th><th>D0</th><th>DM1</th><th>Dur</th><th>Fundos</th></tr></thead>
+        <tbody><tr><td>1</td><td class="mono">ARTRA1</td><td>Arteris</td><td>Debênture</td><td class="loss">-104.3</td><td>+13.6</td><td>+117.9</td><td>0.48</td><td>20</td></tr>
+<tr><td>2</td><td class="mono">MOVIA3</td><td>MOVIDA PARTICIPACOES S/A</td><td>Debênture</td><td class="loss">-95.6</td><td>+271.6</td><td>+367.3</td><td>0.89</td><td>23</td></tr>
+<tr><td>3</td><td class="mono">MOVI34</td><td>MOVIDA PARTICIPACOES S/A</td><td>Debênture</td><td class="loss">-80.8</td><td>+205.9</td><td>+286.7</td><td>0.85</td><td>1</td></tr>
+<tr><td>4</td><td class="mono">MOVI27</td><td>MOVIDA PARTICIPACOES S/A</td><td>Debênture</td><td class="loss">-67.5</td><td>+336.3</td><td>+403.8</td><td>1.99</td><td>7</td></tr>
+<tr><td>5</td><td class="mono">DASAA6</td><td>Dasa</td><td>Debênture</td><td class="loss">-63.1</td><td>+151.7</td><td>+214.8</td><td>0.58</td><td>7</td></tr>
+<tr><td>6</td><td class="mono">DASAB5</td><td>Dasa</td><td>Debênture</td><td class="loss">-56.6</td><td>+197.9</td><td>+254.5</td><td>2.19</td><td>14</td></tr>
+<tr><td>7</td><td class="mono">MVLVA1</td><td>MOVIDA PARTICIPACOES S/A</td><td>Debênture</td><td class="loss">-51.8</td><td>+280.2</td><td>+332.1</td><td>1.18</td><td>7</td></tr>
+<tr><td>8</td><td class="mono">MVLV19</td><td>MOVIDA PARTICIPACOES S/A</td><td>Debênture</td><td class="loss">-38.1</td><td>+272.5</td><td>+310.6</td><td>0.54</td><td>16</td></tr>
+<tr><td>9</td><td class="mono">ARTRA4</td><td>Arteris</td><td>Debênture</td><td class="loss">-35.5</td><td>+132.9</td><td>+168.4</td><td>1.34</td><td>10</td></tr>
+<tr><td>10</td><td class="mono">DASAC5</td><td>Dasa</td><td>Debênture</td><td class="loss">-29.9</td><td>+244.9</td><td>+274.8</td><td>3.81</td><td>12</td></tr>
+<tr><td>11</td><td class="mono">SUMI39</td><td>GIGA MAIS FIBRA TELECOMUN</td><td>Debênture</td><td class="loss">-27.0</td><td>+616.8</td><td>+643.8</td><td>2.28</td><td>24</td></tr>
+<tr><td>12</td><td class="mono">ARTRA5</td><td>Arteris</td><td>Debênture</td><td class="loss">-25.4</td><td>+139.1</td><td>+164.5</td><td>1.74</td><td>14</td></tr>
+<tr><td>13</td><td class="mono">QYAN11</td><td>QUANTUM MANTIQUEIRA PARTI</td><td>Debênture</td><td class="loss">-14.2</td><td>+69.7</td><td>+83.9</td><td>3.61</td><td>3</td></tr>
+<tr><td>14</td><td class="mono">ANIM17</td><td>Anima</td><td>Debênture</td><td class="loss">-11.0</td><td>+170.3</td><td>+181.3</td><td>2.22</td><td>4</td></tr>
+<tr><td>15</td><td class="mono">MGLUA0</td><td>Magazine Luiza S.A.</td><td>Debênture</td><td class="loss">-11.0</td><td>+200.3</td><td>+211.3</td><td>0.59</td><td>1</td></tr>
+</tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div class="card-t">Top 15 — Maiores Fechamentos</div><div class="card-s">Spread tightening</div></div>
+    <div class="tbl-w" style="max-height:420px">
+      <table>
+        <thead><tr><th>#</th><th>Ativo</th><th>Empresa</th><th>Tipo</th><th>Δ BPS</th><th>D0</th><th>DM1</th><th>Dur</th><th>Fundos</th></tr></thead>
+        <tbody><tr><td>1</td><td class="mono">AERI12</td><td>Aeris</td><td>Debênture</td><td class="profit">+2334.2</td><td>+16873.6</td><td>+14539.4</td><td>1.71</td><td>27</td></tr>
+<tr><td>2</td><td class="mono">AERI11</td><td>Aeris</td><td>Debênture</td><td class="profit">+1340.2</td><td>+15981.1</td><td>+14640.9</td><td>1.74</td><td>25</td></tr>
+<tr><td>3</td><td class="mono">BRKMA6</td><td>Braskem</td><td>Debênture</td><td class="profit">+854.1</td><td>+5067.7</td><td>+4213.7</td><td>2.05</td><td>21</td></tr>
+<tr><td>4</td><td class="mono">BRKMA8</td><td>Braskem</td><td>Debênture</td><td class="profit">+798.1</td><td>+4446.4</td><td>+3648.2</td><td>2.23</td><td>32</td></tr>
+<tr><td>5</td><td class="mono">CSNAA1</td><td>CSN - Sid Nacional</td><td>Debênture</td><td class="profit">+725.0</td><td>+1494.1</td><td>+769.1</td><td>1.79</td><td>24</td></tr>
+<tr><td>6</td><td class="mono">BRKMB8</td><td>Braskem</td><td>Debênture</td><td class="profit">+675.6</td><td>+3539.9</td><td>+2864.3</td><td>2.59</td><td>20</td></tr>
+<tr><td>7</td><td class="mono">CSNAA2</td><td>CSN - Sid Nacional</td><td>Debênture</td><td class="profit">+643.1</td><td>+1392.2</td><td>+749.1</td><td>1.15</td><td>13</td></tr>
+<tr><td>8</td><td class="mono">BRKMB6</td><td>Braskem</td><td>Debênture</td><td class="profit">+535.1</td><td>+3543.5</td><td>+3008.3</td><td>2.56</td><td>3</td></tr>
+<tr><td>9</td><td class="mono">VTII21</td><td>Provi II</td><td>Debênture</td><td class="profit">+347.9</td><td>+5212.9</td><td>+4865.0</td><td>0.43</td><td>5</td></tr>
+<tr><td>10</td><td class="mono">BBML13</td><td>BBM Logistica</td><td>Debênture</td><td class="profit">+209.0</td><td>+5171.1</td><td>+4962.1</td><td>2.79</td><td>17</td></tr>
+<tr><td>11</td><td class="mono">CSCF11</td><td>Consignados I - COMPANHIA</td><td>Debênture</td><td class="profit">+100.1</td><td>+971.5</td><td>+871.4</td><td>0.65</td><td>7</td></tr>
+<tr><td>12</td><td class="mono">CBRDA8</td><td>CBD - Companhia Brasileir</td><td>Debênture</td><td class="profit">+55.1</td><td>+2714.8</td><td>+2659.6</td><td>0.19</td><td>18</td></tr>
+<tr><td>13</td><td class="mono">VLME11</td><td>VRental</td><td>Debênture</td><td class="profit">+48.9</td><td>+448.6</td><td>+399.6</td><td>2.04</td><td>2</td></tr>
+<tr><td>14</td><td class="mono">CSAN23</td><td>Cosan S.A.</td><td>Debênture</td><td class="profit">+44.7</td><td>+225.6</td><td>+180.9</td><td>3.37</td><td>10</td></tr>
+<tr><td>15</td><td class="mono">CSAN18</td><td>Cosan S.A.</td><td>Debênture</td><td class="profit">+35.5</td><td>+215.0</td><td>+179.5</td><td>3.32</td><td>17</td></tr>
+</tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ═══ S7: DIVIDENDOS ═══ -->
+<div id="s7" class="sec"><span class="material-icons-outlined icon">payments</span> Dividendos — Fundos Listados</div>
+
+<div class="card">
+  <div class="card-h"><div class="card-t">Dividendos do Mês</div><div class="card-s">6 fundos</div></div>
+  <div class="tbl-w">
+    <table>
+      <thead><tr><th>Fundo</th><th>Dividendos</th><th>Var. Cota (%)</th><th>Ret. Cota+Div</th><th>Observação</th></tr></thead>
+      <tbody><tr><td>JGPI11</td><td class="accent">R$ 3.75 mi</td><td class="loss">-0.3037%</td><td>Positivo</td><td class="muted">Dividendo compensa cota</td></tr>
+<tr><td>JGPQ11</td><td class="accent">R$ 3.17 mi</td><td class="loss">-0.6038%</td><td>Positivo</td><td class="muted">Dividendo compensa cota</td></tr>
+<tr><td>JGPX11</td><td class="accent">R$ 2.40 mi</td><td class="profit">1.9648%</td><td>Positivo</td><td class="muted">Positivo c/ dividendo</td></tr>
+<tr><td>JGPT11</td><td class="accent">R$ 2.31 mi</td><td class="profit">1.3227%</td><td>Positivo</td><td class="muted">Positivo c/ dividendo</td></tr>
+<tr><td>JGFA11</td><td class="accent">R$ 723.7 mil</td><td class="profit">0.5198%</td><td>Positivo</td><td class="muted">Positivo c/ dividendo</td></tr>
+<tr><td>TOTAL</td><td class="accent">R$ 12.36 mi</td><td class="loss">-</td><td>-</td><td class="muted">5 fundos pagadores</td></tr>
+</tbody>
+    </table>
+  </div>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="ftr">
+  JGP Gestão de Recursos &nbsp;&middot;&nbsp; Middle Office Crédito &nbsp;&middot;&nbsp; Dados Confidenciais &nbsp;&middot;&nbsp;
+  Fonte: Relatório v5 &nbsp;&middot;&nbsp; 05/03/2026 22:57
+</div>
+
+<!-- ═══ CHARTS (static data, light theme) ═══ -->
+<script>
+Chart.defaults.color='#5f6368';
+Chart.defaults.borderColor='rgba(218,220,224,0.6)';
+Chart.defaults.font.family="'Roboto',sans-serif";
+Chart.defaults.plugins.legend.labels.boxWidth=10;
+Chart.defaults.plugins.legend.labels.padding=14;
+Chart.defaults.plugins.tooltip.backgroundColor='rgba(32,33,36,.92)';
+Chart.defaults.plugins.tooltip.titleColor='#fff';
+Chart.defaults.plugins.tooltip.bodyColor='#e8eaed';
+Chart.defaults.plugins.tooltip.borderColor='rgba(255,255,255,.1)';
+Chart.defaults.plugins.tooltip.borderWidth=1;
+Chart.defaults.plugins.tooltip.cornerRadius=8;
+Chart.defaults.plugins.tooltip.padding=12;
+
+const M=v=>'R$ '+(v/1e6).toFixed(2)+'M';
+
+// P&L Fundo
+new Chart(document.getElementById('c_pnl'),{
+  type:'bar',
+  data:{
+    labels:["PREV", "Infra CDI", "PREV BRAD", "QUANTA", "CORP", "Infra Layers", "PLUS", "SELECT", "ECO", "XP", "JGPQ11*", "JGPI11*", "JGFA11*"],
+    datasets:[
+      {label:'Carry',data:[50750000.0, 22860000.0, 24870000.0, 19430000.0, 12800000.0, 9460000.0, 10090000.0, 7440000.0, 5970000.0, 6050000.0, 2920000.0, 3430000.0, 796000.0],backgroundColor:'#1a73e8',borderRadius:3,borderSkipped:false},
+      {label:'MTM',data:[-6040000.0, -3220000.0, -5820000.0, -1760000.0, -3330000.0, -110700.0, -2540000.0, -2009999.9999999998, -628800.0, -1460000.0, -4440000.0, -4139999.9999999995, -1030000.0],backgroundColor:["#ea4335", "#ea4335", "#ea4335", "#ea4335", "#ea4335", "#ea4335", "#ea4335", "#ea4335", "#ea4335", "#ea4335", "#ea4335", "#ea4335", "#ea4335"],borderRadius:3,borderSkipped:false},
+    ]
+  },
+  options:{
+    indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'rect'}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+M(c.parsed.x)}}},
+    scales:{
+      x:{stacked:true,grid:{color:'rgba(218,220,224,.4)'},ticks:{callback:v=>M(v),font:{family:"'Roboto Mono'"}}},
+      y:{stacked:true,grid:{display:false},ticks:{font:{size:11}}}
+    }
+  }
+});
+
+// Waterfall
+new Chart(document.getElementById('c_wf'),{
+  type:'bar',
+  data:{
+    labels:["USL21779AL44", "RAIZBZ_32", "RBRAW3", "RDORE4", "RODB11", "FIDC SolFacil VI", "LFSN2500B9L", "QMCT14", "VTEG13", "TFLEA9", "BRKMA6", "CSNAA2", "LIGT11", "CSNAA1", "BRKMA8"],
+    datasets:[{data:[11120000.0, 7750000.0, 3720000.0, 3360000.0, 3070000.0, 3000000.0, 2680000.0, 2650000.0, 2560000.0, 2480000.0, -2540000.0, -3090000.0, -3210000.0, -11980000.0, -13510000.0],backgroundColor:["#34a853", "#34a853", "#34a853", "#34a853", "#34a853", "#34a853", "#34a853", "#34a853", "#34a853", "#34a853", "#ea4335", "#ea4335", "#ea4335", "#ea4335", "#ea4335"],borderRadius:4,borderSkipped:false}]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>M(c.parsed.y)}}},
+    scales:{
+      y:{grid:{color:'rgba(218,220,224,.4)'},ticks:{callback:v=>M(v),font:{family:"'Roboto Mono'"}}},
+      x:{grid:{display:false},ticks:{font:{size:9,family:"'Roboto Mono'"},maxRotation:45}}
+    }
+  }
+});
+
+// Diário
+new Chart(document.getElementById('c_dia'),{
+  type:'bar',
+  data:{
+    labels:["02/02", "03/02", "04/02", "05/02", "06/02", "09/02", "10/02", "11/02", "12/02", "13/02", "18/02", "19/02", "20/02", "23/02", "24/02", "25/02", "26/02", "27/02"],
+    datasets:[{data:[4620000.0, 10840000.0, 9020000.0, 30360000.0, 11690000.0, -2730000.0, 26490000.0, -3610000.0, 7620000.0, -8100000.0, 9580000.0, 14280000.0, 20820000.0, 857400.0, 18160000.0, 11640000.0, 27590000.0, 9300000.0],backgroundColor:["#34a853", "#34a853", "#34a853", "#34a853", "#34a853", "#ea4335", "#34a853", "#ea4335", "#34a853", "#ea4335", "#34a853", "#34a853", "#34a853", "#34a853", "#34a853", "#34a853", "#34a853", "#34a853"],borderRadius:4,borderSkipped:false}]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>M(c.parsed.y)}}},
+    scales:{
+      y:{grid:{color:'rgba(218,220,224,.4)'},ticks:{callback:v=>M(v),font:{family:"'Roboto Mono'"}}},
+      x:{grid:{display:false}}
+    }
+  }
+});
+
+// Acumulado
+new Chart(document.getElementById('c_acum'),{
+  type:'line',
+  data:{
+    labels:["02/02", "03/02", "04/02", "05/02", "06/02", "09/02", "10/02", "11/02", "12/02", "13/02", "18/02", "19/02", "20/02", "23/02", "24/02", "25/02", "26/02", "27/02"],
+    datasets:[{
+      data:[4620000.0, 15460000.0, 24480000.0, 54840000.0, 66519999.99999999, 63800000.0, 90290000.0, 86670000.0, 94290000.0, 86190000.0, 95780000.0, 110050000.0, 130870000.0, 131720000.0, 149890000.0, 161520000.0, 189110000.0, 198410000.0],
+      borderColor:'#1a73e8',backgroundColor:'rgba(26,115,232,.08)',
+      borderWidth:2.5,fill:true,tension:.35,
+      pointRadius:4,pointBackgroundColor:'#1a73e8',pointBorderColor:'#ffffff',pointBorderWidth:2
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>M(c.parsed.y)}}},
+    scales:{
+      y:{grid:{color:'rgba(218,220,224,.4)'},ticks:{callback:v=>M(v),font:{family:"'Roboto Mono'"}}},
+      x:{grid:{display:false}}
+    }
+  }
+});
+
+// %CDI
+new Chart(document.getElementById('c_cdi'),{
+  type:'bar',
+  data:{
+    labels:["Infra Ima-B", "Jardim Bot\u00e2nico", "CORP_III_MST", "CORP_III", "MIRANTE", "PETROS", "PREMIUM", "JR", "PLUS", "PREV BRAD", "Infra CDI", "CORP", "XP", "SELECT", "BLAZER", "ITAU PREV", "ALBA", "NESTON"],
+    datasets:[{data:[118.2, 106.3, 105.5, 103.9, 103.4, 102.5, 77.8, 78.9, 80.6, 83.0, 84.9, 86.2, 88.9, 89.1, 89.7, 92.3, 92.8, 93.5],backgroundColor:["#34a853", "#34a853", "#34a853", "#34a853", "#34a853", "#34a853", "#ea4335", "#ea4335", "#ea4335", "#ea4335", "#ea4335", "#ea4335", "#ea4335", "#ea4335", "#ea4335", "#fbbc04", "#fbbc04", "#fbbc04"],borderRadius:4,borderSkipped:false}]
+  },
+  options:{
+    indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.x.toFixed(1)+'% CDI'}}},
+    scales:{
+      x:{beginAtZero:true,grid:{color:'rgba(218,220,224,.4)'},ticks:{callback:v=>v+'%',font:{family:"'Roboto Mono'"}}},
+      y:{grid:{display:false},ticks:{font:{size:11}}}
+    }
+  }
+});
+
+// Spread dist
+new Chart(document.getElementById('c_sdist'),{
+  type:'bar',
+  data:{
+    labels:["< -50 bps", "-50 a -20", "-20 a -5", "-5 a +5", "+5 a +20", "+20 a +50", "> +50 bps"],
+    datasets:[{data:[7, 5, 14, 190, 11, 17, 12],backgroundColor:['#ea4335','#fa7b17','#fbbc04','#9aa0a6','#fbbc04','#34a853','#1a73e8'],borderRadius:5,borderSkipped:false}]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{
+      y:{beginAtZero:true,grid:{color:'rgba(218,220,224,.4)'},ticks:{font:{family:"'Roboto Mono'"}}},
+      x:{grid:{display:false}}
+    }
+  }
+});
+
+// Nav highlight on scroll
+const secs=document.querySelectorAll('.sec');
+const links=document.querySelectorAll('.nav a');
+window.addEventListener('scroll',()=>{
+  let cur=0;
+  secs.forEach((s,i)=>{ if(s.getBoundingClientRect().top<=150) cur=i; });
+  links.forEach((a,i)=>a.classList.toggle('on',i===cur));
+});
+</script>
+</body>
+</html>
