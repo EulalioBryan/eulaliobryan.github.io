@@ -421,14 +421,35 @@ body {
     <span class="tag">⚠ RECUPERAÇÃO EXTRAJUDICIAL</span>
     <span class="desc">JGP Ecossistema — Acompanhamento para Clientes</span>
     <div class="right">
-        <span>10/03/2026 12:05:30</span>
+        <span>10/03/2026 16:00:15</span>
     </div>
 </div>
 
 <!-- CONTENT -->
 <div class="content">
 
+    <!-- ═══════════ SEÇÃO: IMPACTO DAS TESES ═══════════ -->
+
+    <div class="panel">
+        <div class="panel-header">
+            <span class="panel-title">IMPACTO DAS TESES DE INVESTIMENTO</span>
+            <span class="panel-sub">Contribuição acumulada ao PL desde Ago/2025 · JGP Ecossistema</span>
+        </div>
+        <div style="padding:14px 16px;height:420px;">
+            <div style="position:relative;width:100%;height:100%;">
+                <canvas id="chart-teses"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <div class="disclaimer">
+        <strong>Nota:</strong> Os valores representam o impacto acumulado de cada tese no patrimônio líquido do fundo desde agosto de 2025.
+        Este material é de uso exclusivo dos cotistas e não constitui oferta de venda ou solicitação de compra.
+    </div>
+
     <!-- ═══════════ SEÇÃO: EXPOSIÇÃO ═══════════ -->
+    <div class="section-divider"></div>
 
     <!-- HIGHLIGHT KPIs -->
     <div class="highlight-strip" id="hl-main"></div>
@@ -539,7 +560,7 @@ body {
 <!-- FOOTER -->
 <div class="footer">
     <span>JGP GESTÃO DE RECURSOS · Middle/Trading · Recuperação Extrajudicial — CBRDA8</span>
-    <span>Gerado em 10/03/2026 12:05:30 · Dados: Oracle</span>
+    <span>Gerado em 10/03/2026 16:00:15 · Dados: Oracle</span>
 </div>
 
 <!-- Chart.js -->
@@ -554,6 +575,7 @@ const RAW_DATA = [{"data": "2023-08-07", "data_label": "07/08/2023", "exposicao"
 const STATS = {"ultimo": 0.024864, "primeiro": 0.015094, "min": 0.014746, "max": 0.050793, "pico": 0.050793, "media": 0.033241, "count": 641, "reducao_pct": 51.05};
 const CUPONS_DATA = [{"data": "2023-11-10", "data_label": "10/11/2023", "cupom": 1086729.7, "cupom_unit": 74.310115, "cupom_acum": 1086729.7}, {"data": "2024-05-10", "data_label": "10/05/2024", "cupom": 1084413.39, "cupom_unit": 62.48713, "cupom_acum": 2171143.09}, {"data": "2024-11-11", "data_label": "11/11/2024", "cupom": 1308231.12, "cupom_unit": 56.025469, "cupom_acum": 3479374.21}, {"data": "2025-05-12", "data_label": "12/05/2025", "cupom": 15342225.15, "cupom_unit": 568.213753, "cupom_acum": 18821599.35}, {"data": "2025-11-10", "data_label": "10/11/2025", "cupom": 1206052.14, "cupom_unit": 41.365504, "cupom_acum": 20027651.49}];
 const CUPONS_STATS = {"total": 20027651.5, "count": 5, "media": 4005530.3, "min": 1084413.39, "max": 15342225.15, "primeiro_cupom": 1086729.7, "ultimo_cupom": 1206052.14, "unit_media": 160.480394, "unit_ultimo": 41.365504};
+const TESES_DATA = [{"name": "USL0183EAA30", "label": "Short Ambipar", "impacto": 0.00342398, "impacto_pct": 0.3424, "is_cbrda8": false}, {"name": "PDVSA 6 2024", "label": "PDVSA 6 2024", "impacto": 0.00358604, "impacto_pct": 0.3586, "is_cbrda8": false}, {"name": "RAIZBZ 6 1/4 07/08/32", "label": "Short de Raizen", "impacto": 0.00619115, "impacto_pct": 0.6191, "is_cbrda8": false}, {"name": "Light", "label": "Light", "impacto": 0.01223852, "impacto_pct": 1.2239, "is_cbrda8": false}, {"name": "CBRDA8", "label": "CBRDA8", "impacto": -0.0160907, "impacto_pct": -1.60907, "is_cbrda8": true}];
 
 // ═══════════════════════════════════════════════════════════════
 // STATE
@@ -932,9 +954,130 @@ function renderCupons() {
     renderChartCupons();
 }
 
+function renderTeses() {
+    const ctx = document.getElementById('chart-teses');
+    if (!ctx || !TESES_DATA.length) return;
+
+    // Total acumulado em bps
+    const totalPct = TESES_DATA.reduce((s, d) => s + d.impacto_pct, 0);
+
+    const labels = TESES_DATA.map(d => d.label);
+    const values = TESES_DATA.map(d => d.impacto_pct);
+
+    // Adicionar barra consolidada "Total Teses"
+    labels.push('Total Teses');
+    values.push(totalPct);
+
+    const colors = values.map((v, i) => {
+        if (i === values.length - 1) return 'rgba(26,122,6,0.9)';  // barra total: verde escuro
+        return v >= 0 ? 'rgba(47,185,9,0.75)' : 'rgba(211,47,47,0.75)';
+    });
+    const borders = values.map((v, i) => {
+        if (i === values.length - 1) return '#145205';
+        return v >= 0 ? '#2FB909' : '#d32f2f';
+    });
+
+    // Estender TESES_DATA com item virtual para o plugin de labels
+    const extData = [...TESES_DATA, { label: 'Total Teses', is_cbrda8: false, is_total: true }];
+
+    const bpsPlugin = {
+        id: 'bpsLabels',
+        afterDatasetsDraw(chart) {
+            const c = chart.ctx;
+            chart.data.datasets.forEach((ds, i) => {
+                const meta = chart.getDatasetMeta(i);
+                meta.data.forEach((bar, idx) => {
+                    const val = ds.data[idx];
+                    const bps = (val * 100).toFixed(1);
+                    const arrow = val >= 0 ? '↑' : '↓';
+                    const lbl = arrow + ' ' + Math.abs(parseFloat(bps)).toFixed(1) + ' bps';
+                    const isCbrda8 = extData[idx] && extData[idx].is_cbrda8;
+                    c.save();
+                    c.textAlign = 'center';
+                    c.font = "bold 14px 'Inter', sans-serif";
+                    if (val >= 0) {
+                        c.textBaseline = 'bottom';
+                        c.fillStyle = '#1a7a06';
+                        c.fillText(lbl, bar.x, bar.y - 10);
+                    } else {
+                        c.textBaseline = 'top';
+                        c.fillStyle = '#d32f2f';
+                        c.fillText(lbl, bar.x, bar.y + 10);
+                    }
+                    // Anotação especial para CBRDA8
+                    if (isCbrda8) {
+                        const annY = val >= 0 ? bar.y - 32 : bar.y + 32;
+                        c.font = "600 12px 'Inter', sans-serif";
+                        c.fillStyle = '#7030A0';
+                        c.textBaseline = val >= 0 ? 'bottom' : 'top';
+                        c.fillText('↓ Remarcado p/ 25% par', bar.x, annY);
+                    }
+                    c.restore();
+                });
+            });
+        }
+    };
+
+    new Chart(ctx.getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Impacto (% PL)',
+                data: values,
+                backgroundColor: colors,
+                borderColor: borders,
+                borderWidth: 1.5,
+                borderRadius: 6,
+                maxBarThickness: 100
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: { padding: { top: 36 } },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#ffffff',
+                    titleColor: '#1f2937',
+                    bodyColor: '#4b5563',
+                    borderColor: '#e5e7eb',
+                    borderWidth: 1,
+                    padding: 12,
+                    titleFont: { family: "'Inter'" },
+                    bodyFont: { family: "'Inter'", size: 12 },
+                    callbacks: {
+                        label: function(ctx) {
+                            const bps = (ctx.raw * 100).toFixed(1);
+                            return 'Impacto: ' + ctx.raw.toFixed(4).replace('.', ',') + '% (' + bps + ' bps)';
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: { color: '#1f2937', font: { size: 12, weight: '600', family: "'Inter'" } }
+                },
+                y: {
+                    grid: { color: '#f3f4f6', drawBorder: false },
+                    ticks: {
+                        color: '#9ca3af',
+                        font: { size: 11, family: "'Inter'" },
+                        callback: function(v) { return v.toFixed(2) + '%'; }
+                    }
+                }
+            }
+        },
+        plugins: [bpsPlugin]
+    });
+}
+
 function renderAll() {
     renderExposicao();
     renderCupons();
+    renderTeses();
 }
 
 // ═══════════════════════════════════════════════════════════════
