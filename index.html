@@ -1,1 +1,955 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JGP Crédito — Exposição Recuperação Extrajudicial (CBRDA8)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg-main:    #eef1f6;
+    --bg-panel:   #ffffff;
+    --bg-header:  #f5f7fa;
+    --bg-row-odd: #ffffff;
+    --bg-row-even:#f5f7fa;
+    --bg-hover:   #e8ecf4;
+    --bg-topbar:  #1a7a06;
+    --accent:     #2FB909;
+    --accent-l:   #3dc912;
+    --accent-bg:  rgba(47,185,9,0.06);
+    --success:    #2FB909;
+    --success-bg: rgba(47,185,9,0.08);
+    --warning:    #d97706;
+    --warning-bg: rgba(217,119,6,0.06);
+    --danger:     #dc2626;
+    --danger-bg:  rgba(220,38,38,0.05);
+    --t1: #1f2937;
+    --t2: #4b5563;
+    --t3: #9ca3af;
+    --t4: #d1d5db;
+    --border: #e5e7eb;
+    --border-strong: #d1d5db;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
 
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: var(--font);
+    background: var(--bg-main);
+    color: var(--t1);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ===== TOP BAR ===== */
+.topbar {
+    background: var(--bg-topbar);
+    border-bottom: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    height: 64px;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.topbar .brand {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 6px 16px;
+    border-radius: 6px;
+    letter-spacing: 2px;
+}
+.topbar .ticker {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+}
+.topbar .tag {
+    color: #fcd34d;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgba(252,211,77,0.15);
+}
+.topbar .desc {
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+}
+.topbar .right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+}
+
+/* ===== TAB BAR ===== */
+.tabbar {
+    background: #22680a;
+    border-bottom: none;
+    display: flex;
+    padding: 0 32px;
+    gap: 4px;
+}
+.tabbar .tab {
+    padding: 12px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: var(--font);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+.tabbar .tab:hover { color: rgba(255,255,255,0.8); }
+.tabbar .tab.active {
+    color: #ffffff;
+    border-bottom-color: #2FB909;
+    background: rgba(47,185,9,0.1);
+}
+
+/* ===== CONTENT ===== */
+.content { padding: 24px 32px; max-width: 1400px; margin: 0 auto; }
+
+/* ===== SECTION DIVIDER ===== */
+.section-divider {
+    height: 1px;
+    background: var(--border-strong);
+    margin: 32px 0;
+}
+
+/* ===== ALERT BANNER ===== */
+.alert-banner {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border: 1px solid #fcd34d;
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+.alert-banner .alert-icon {
+    font-size: 32px;
+    line-height: 1;
+}
+.alert-banner .alert-text {
+    flex: 1;
+}
+.alert-banner .alert-title {
+    color: #92400e;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+.alert-banner .alert-desc {
+    color: #78350f;
+    font-size: 13px;
+    line-height: 1.7;
+    opacity: 0.85;
+}
+
+/* ===== KPI STRIP ===== */
+.kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.kpi-box {
+    background: var(--bg-panel);
+    padding: 16px 20px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+}
+.kpi-box .label {
+    font-size: 11px;
+    color: var(--t3);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+.kpi-box .value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--t1);
+    line-height: 1.1;
+}
+.kpi-box .value.green  { color: var(--success); }
+.kpi-box .value.cyan   { color: var(--accent-l); }
+.kpi-box .value.blue   { color: var(--accent); }
+.kpi-box .value.red    { color: var(--danger); }
+.kpi-box .value.orange { color: var(--warning); }
+.kpi-box .sub {
+    font-size: 11px;
+    color: var(--t3);
+    margin-top: 4px;
+}
+
+/* ===== HIGHLIGHT CARDS ===== */
+.highlight-strip {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+.hl-card {
+    flex: 1;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s;
+}
+.hl-card:hover { box-shadow: var(--shadow-md); }
+.hl-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+.hl-card.green::before  { background: #2FB909; }
+.hl-card.cyan::before   { background: var(--accent-l); }
+.hl-card.red::before    { background: var(--danger); }
+.hl-card.orange::before { background: var(--warning); }
+.hl-card.blue::before   { background: var(--accent); }
+.hl-card.purple::before { background: #7c3aed; }
+.hl-card .hl-label {
+    font-size: 11px;
+    color: var(--t3);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.hl-card .hl-value {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+.hl-card.green  .hl-value { color: #2FB909; }
+.hl-card.cyan   .hl-value { color: var(--accent-l); }
+.hl-card.red    .hl-value { color: var(--danger); }
+.hl-card.orange .hl-value { color: var(--warning); }
+.hl-card.blue   .hl-value { color: var(--accent); }
+.hl-card.purple .hl-value { color: #7c3aed; }
+.hl-card .hl-sub {
+    font-size: 12px;
+    color: var(--t3);
+    margin-top: 8px;
+}
+
+/* ===== PANELS ===== */
+.panel {
+    border: 1px solid var(--border);
+    background: var(--bg-panel);
+    margin-bottom: 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+.panel-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-header);
+}
+.panel-title {
+    font-size: 14px;
+    color: var(--t1);
+    font-weight: 700;
+}
+.panel-sub {
+    font-size: 12px;
+    color: var(--t3);
+}
+
+/* ===== GRID LAYOUT ===== */
+.grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+@media (max-width: 1200px) {
+    .grid-2col { grid-template-columns: 1fr; }
+    .highlight-strip { flex-direction: column; }
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    color: var(--t2);
+    font-family: var(--font);
+    font-size: 12px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all .2s;
+    margin-left: 4px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+.btn:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+.btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+/* ===== DATE FILTER ===== */
+.filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 14px 20px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+}
+.filter-bar label {
+    font-size: 12px;
+    color: var(--t2);
+    font-weight: 600;
+}
+.filter-bar input[type="date"] {
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    color: var(--t1);
+    font-family: var(--font);
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+.period-btns {
+    display: flex;
+    gap: 4px;
+    margin-left: 8px;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    background: #1a7a06;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 24px;
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-bar-container {
+    background: #e5e7eb;
+    border-radius: 12px;
+    height: 28px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 8px;
+}
+.progress-bar {
+    height: 100%;
+    border-radius: 12px;
+    transition: width 0.8s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+}
+.progress-bar.green { background: linear-gradient(90deg, #2FB909, #5cd63a); }
+.progress-bar.red   { background: linear-gradient(90deg, #dc2626, #f87171); }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background: var(--bg-main); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--t4); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--t3); }
+
+/* ===== DISCLAIMER ===== */
+.disclaimer {
+    margin-top: 24px;
+    padding: 20px 24px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    color: #166534;
+    line-height: 1.8;
+}
+.disclaimer strong {
+    color: #15803d;
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <span class="brand">JGP</span>
+    <span class="ticker">CBRDA8</span>
+    <span class="tag">⚠ RECUPERAÇÃO EXTRAJUDICIAL</span>
+    <span class="desc">JGP Ecossistema — Acompanhamento para Clientes</span>
+    <div class="right">
+        <span>10/03/2026 12:05:30</span>
+    </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+    <!-- ═══════════ SEÇÃO: EXPOSIÇÃO ═══════════ -->
+
+    <!-- HIGHLIGHT KPIs -->
+    <div class="highlight-strip" id="hl-main"></div>
+
+    <!-- KPI DETAILS -->
+    <div class="kpi-strip" id="kpi-detail"></div>
+
+    <!-- REDUCTION PROGRESS -->
+    <div class="panel">
+        <div class="panel-header">
+            <span class="panel-title">PROGRESSO DA REDUÇÃO DE EXPOSIÇÃO</span>
+            <span class="panel-sub">Do pico até posição atual</span>
+        </div>
+        <div style="padding:16px;">
+            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;">
+                <span style="color:var(--t2);">Pico: <span style="color:var(--danger);font-weight:600;" id="prog-pico"></span></span>
+                <span style="color:var(--t2);">Atual: <span style="color:var(--success);font-weight:600;" id="prog-atual"></span></span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar green" id="prog-bar"></div>
+            </div>
+            <div style="text-align:center;margin-top:10px;font-size:13px;color:var(--success);font-weight:600;" id="prog-label"></div>
+        </div>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+        <label>Período:</label>
+        <div class="period-btns">
+            <button class="btn" onclick="setPeriod(90)">3M</button>
+            <button class="btn" onclick="setPeriod(180)">6M</button>
+            <button class="btn" onclick="setPeriod(365)">1A</button>
+            <button class="btn" onclick="setPeriod(730)">2A</button>
+            <button class="btn active" onclick="setPeriod(0)">MAX</button>
+        </div>
+        <span style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+            <label>De:</label>
+            <input type="date" id="dt-ini" onchange="applyDateFilter()">
+            <label>Até:</label>
+            <input type="date" id="dt-fim" onchange="applyDateFilter()">
+        </span>
+    </div>
+
+    <!-- CHART: Exposição -->
+    <div class="panel">
+        <div class="panel-header">
+            <span class="panel-title">EXPOSIÇÃO CBRDA8 — Série Histórica (% do PL)</span>
+            <span class="panel-sub">cr_performance_attr_v2 · JGP Ecossistema</span>
+        </div>
+        <div style="padding:14px 16px;height:400px;">
+            <div style="display:flex;gap:16px;margin-bottom:10px;font-size:10px;flex-wrap:wrap;">
+                <span style="display:flex;align-items:center;gap:5px;">
+                    <span style="width:16px;height:3px;background:#2FB909;display:inline-block;border-radius:2px;"></span>
+                    Exposição (% PL)
+                </span>
+            </div>
+            <div style="position:relative;width:100%;height:calc(100% - 30px);">
+                <canvas id="chart-exposicao"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <div class="disclaimer">
+        <strong>Nota:</strong> A exposição é calculada como (Preço Administrativo × Quantidade) / Patrimônio Líquido do fundo.
+        Os valores apresentados são baseados em dados internos de gestão e podem sofrer ajustes.
+        Este material é de uso exclusivo dos cotistas e não constitui oferta de venda ou solicitação de compra.
+    </div>
+
+    <!-- ═══════════ SEÇÃO: CUPONS RECEBIDOS ═══════════ -->
+    <div class="section-divider"></div>
+
+    <!-- KPI CARDS -->
+    <div class="highlight-strip" id="hl-cupons"></div>
+
+    <!-- CHART: Cupons -->
+    <div class="panel">
+        <div class="panel-header">
+            <span class="panel-title">CUPONS RECEBIDOS — CBRDA8 (Histórico de Pagamentos)</span>
+            <span class="panel-sub">SOPHIS_DEALS_COUPONS · JGP Ecossistema</span>
+        </div>
+        <div style="padding:14px 16px;height:420px;">
+            <div style="display:flex;gap:16px;margin-bottom:10px;font-size:10px;flex-wrap:wrap;">
+                <span style="display:flex;align-items:center;gap:5px;">
+                    <span style="width:16px;height:3px;background:#2FB909;display:inline-block;border-radius:2px;"></span>
+                    Cupom Individual (R$)
+                </span>
+                <span style="display:flex;align-items:center;gap:5px;">
+                    <span style="width:16px;height:3px;background:#1a7a06;display:inline-block;border-radius:2px;"></span>
+                    Acumulado (R$)
+                </span>
+            </div>
+            <div style="position:relative;width:100%;height:calc(100% - 30px);">
+                <canvas id="chart-cupons"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <div class="disclaimer">
+        <strong>Nota:</strong> Os valores representam os cupons (juros) recebidos do papel CBRDA8,
+        registrados via SOPHIS_DEALS_COUPONS. Apenas dias com pagamento efetivo são exibidos.
+        Este material é de uso exclusivo dos cotistas e não constitui oferta de venda ou solicitação de compra.
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <span>JGP GESTÃO DE RECURSOS · Middle/Trading · Recuperação Extrajudicial — CBRDA8</span>
+    <span>Gerado em 10/03/2026 12:05:30 · Dados: Oracle</span>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════════════
+const RAW_DATA = [{"data": "2023-08-07", "data_label": "07/08/2023", "exposicao": 0.015094, "admin_price": 786.576509, "fundo": "ECO"}, {"data": "2023-08-08", "data_label": "08/08/2023", "exposicao": 0.014795, "admin_price": 777.65639, "fundo": "ECO"}, {"data": "2023-08-09", "data_label": "09/08/2023", "exposicao": 0.014746, "admin_price": 776.112801, "fundo": "ECO"}, {"data": "2023-08-10", "data_label": "10/08/2023", "exposicao": 0.014888, "admin_price": 784.215891, "fundo": "ECO"}, {"data": "2023-08-11", "data_label": "11/08/2023", "exposicao": 0.015037, "admin_price": 787.834984, "fundo": "ECO"}, {"data": "2023-08-14", "data_label": "14/08/2023", "exposicao": 0.015213, "admin_price": 797.58635, "fundo": "ECO"}, {"data": "2023-08-15", "data_label": "15/08/2023", "exposicao": 0.015254, "admin_price": 800.138933, "fundo": "ECO"}, {"data": "2023-08-16", "data_label": "16/08/2023", "exposicao": 0.01912, "admin_price": 797.784632, "fundo": "ECO"}, {"data": "2023-08-18", "data_label": "18/08/2023", "exposicao": 0.018977, "admin_price": 792.266071, "fundo": "ECO"}, {"data": "2023-08-21", "data_label": "21/08/2023", "exposicao": 0.019013, "admin_price": 798.258603, "fundo": "ECO"}, {"data": "2023-08-22", "data_label": "22/08/2023", "exposicao": 0.019007, "admin_price": 798.646961, "fundo": "ECO"}, {"data": "2023-08-23", "data_label": "23/08/2023", "exposicao": 0.019009, "admin_price": 797.365352, "fundo": "ECO"}, {"data": "2023-08-24", "data_label": "24/08/2023", "exposicao": 0.01902, "admin_price": 798.085162, "fundo": "ECO"}, {"data": "2023-08-25", "data_label": "25/08/2023", "exposicao": 0.019203, "admin_price": 806.805327, "fundo": "ECO"}, {"data": "2023-08-28", "data_label": "28/08/2023", "exposicao": 0.019246, "admin_price": 809.286788, "fundo": "ECO"}, {"data": "2023-08-29", "data_label": "29/08/2023", "exposicao": 0.019451, "admin_price": 818.673696, "fundo": "ECO"}, {"data": "2023-08-30", "data_label": "30/08/2023", "exposicao": 0.019489, "admin_price": 820.776983, "fundo": "ECO"}, {"data": "2023-08-31", "data_label": "31/08/2023", "exposicao": 0.01935, "admin_price": 819.145107, "fundo": "ECO"}, {"data": "2023-09-01", "data_label": "01/09/2023", "exposicao": 0.021214, "admin_price": 825.146344, "fundo": "ECO"}, {"data": "2023-09-04", "data_label": "04/09/2023", "exposicao": 0.020753, "admin_price": 813.422066, "fundo": "ECO"}, {"data": "2023-09-05", "data_label": "05/09/2023", "exposicao": 0.020955, "admin_price": 821.91183, "fundo": "ECO"}, {"data": "2023-09-06", "data_label": "06/09/2023", "exposicao": 0.021069, "admin_price": 827.005156, "fundo": "ECO"}, {"data": "2023-09-08", "data_label": "08/09/2023", "exposicao": 0.021237, "admin_price": 833.93293, "fundo": "ECO"}, {"data": "2023-09-11", "data_label": "11/09/2023", "exposicao": 0.021468, "admin_price": 844.004569, "fundo": "ECO"}, {"data": "2023-09-12", "data_label": "12/09/2023", "exposicao": 0.0213, "admin_price": 838.274175, "fundo": "ECO"}, {"data": "2023-09-13", "data_label": "13/09/2023", "exposicao": 0.021258, "admin_price": 837.237295, "fundo": "ECO"}, {"data": "2023-09-14", "data_label": "14/09/2023", "exposicao": 0.021343, "admin_price": 841.468936, "fundo": "ECO"}, {"data": "2023-09-15", "data_label": "15/09/2023", "exposicao": 0.020676, "admin_price": 838.662545, "fundo": "ECO"}, {"data": "2023-09-18", "data_label": "18/09/2023", "exposicao": 0.020709, "admin_price": 840.890633, "fundo": "ECO"}, {"data": "2023-09-19", "data_label": "19/09/2023", "exposicao": 0.020742, "admin_price": 842.346872, "fundo": "ECO"}, {"data": "2023-09-20", "data_label": "20/09/2023", "exposicao": 0.020736, "admin_price": 843.084529, "fundo": "ECO"}, {"data": "2023-09-21", "data_label": "21/09/2023", "exposicao": 0.020704, "admin_price": 842.919917, "fundo": "ECO"}, {"data": "2023-09-22", "data_label": "22/09/2023", "exposicao": 0.020726, "admin_price": 844.537153, "fundo": "ECO"}, {"data": "2023-09-25", "data_label": "25/09/2023", "exposicao": 0.020658, "admin_price": 842.634948, "fundo": "ECO"}, {"data": "2023-09-26", "data_label": "26/09/2023", "exposicao": 0.020586, "admin_price": 840.199547, "fundo": "ECO"}, {"data": "2023-09-27", "data_label": "27/09/2023", "exposicao": 0.027225, "admin_price": 846.325996, "fundo": "ECO"}, {"data": "2023-09-28", "data_label": "28/09/2023", "exposicao": 0.027285, "admin_price": 848.708841, "fundo": "ECO"}, {"data": "2023-09-29", "data_label": "29/09/2023", "exposicao": 0.027183, "admin_price": 845.561283, "fundo": "ECO"}, {"data": "2023-10-02", "data_label": "02/10/2023", "exposicao": 0.027383, "admin_price": 852.676093, "fundo": "ECO"}, {"data": "2023-10-03", "data_label": "03/10/2023", "exposicao": 0.027448, "admin_price": 853.825653, "fundo": "ECO"}, {"data": "2023-10-04", "data_label": "04/10/2023", "exposicao": 0.027473, "admin_price": 855.218813, "fundo": "ECO"}, {"data": "2023-10-05", "data_label": "05/10/2023", "exposicao": 0.027478, "admin_price": 855.960446, "fundo": "ECO"}, {"data": "2023-10-06", "data_label": "06/10/2023", "exposicao": 0.027431, "admin_price": 854.398649, "fundo": "ECO"}, {"data": "2023-10-09", "data_label": "09/10/2023", "exposicao": 0.027322, "admin_price": 850.836642, "fundo": "ECO"}, {"data": "2023-10-10", "data_label": "10/10/2023", "exposicao": 0.027423, "admin_price": 854.361475, "fundo": "ECO"}, {"data": "2023-10-11", "data_label": "11/10/2023", "exposicao": 0.027387, "admin_price": 854.293235, "fundo": "ECO"}, {"data": "2023-10-13", "data_label": "13/10/2023", "exposicao": 0.027424, "admin_price": 855.820645, "fundo": "ECO"}, {"data": "2023-10-16", "data_label": "16/10/2023", "exposicao": 0.027498, "admin_price": 858.039065, "fundo": "ECO"}, {"data": "2023-10-17", "data_label": "17/10/2023", "exposicao": 0.027508, "admin_price": 859.284555, "fundo": "ECO"}, {"data": "2023-10-18", "data_label": "18/10/2023", "exposicao": 0.027444, "admin_price": 857.233802, "fundo": "ECO"}, {"data": "2023-10-19", "data_label": "19/10/2023", "exposicao": 0.02756, "admin_price": 861.48876, "fundo": "ECO"}, {"data": "2023-10-20", "data_label": "20/10/2023", "exposicao": 0.027595, "admin_price": 862.803452, "fundo": "ECO"}, {"data": "2023-10-23", "data_label": "23/10/2023", "exposicao": 0.028084, "admin_price": 860.673814, "fundo": "ECO"}, {"data": "2023-10-24", "data_label": "24/10/2023", "exposicao": 0.0282, "admin_price": 865.121009, "fundo": "ECO"}, {"data": "2023-10-25", "data_label": "25/10/2023", "exposicao": 0.028285, "admin_price": 867.545418, "fundo": "ECO"}, {"data": "2023-10-26", "data_label": "26/10/2023", "exposicao": 0.028268, "admin_price": 867.76873, "fundo": "ECO"}, {"data": "2023-10-27", "data_label": "27/10/2023", "exposicao": 0.028244, "admin_price": 867.790419, "fundo": "ECO"}, {"data": "2023-10-30", "data_label": "30/10/2023", "exposicao": 0.02819, "admin_price": 866.788488, "fundo": "ECO"}, {"data": "2023-10-31", "data_label": "31/10/2023", "exposicao": 0.028415, "admin_price": 874.139382, "fundo": "ECO"}, {"data": "2023-11-01", "data_label": "01/11/2023", "exposicao": 0.028296, "admin_price": 871.164109, "fundo": "ECO"}, {"data": "2023-11-03", "data_label": "03/11/2023", "exposicao": 0.028597, "admin_price": 879.014857, "fundo": "ECO"}, {"data": "2023-11-06", "data_label": "06/11/2023", "exposicao": 0.028791, "admin_price": 884.280961, "fundo": "ECO"}, {"data": "2023-11-07", "data_label": "07/11/2023", "exposicao": 0.028537, "admin_price": 876.654011, "fundo": "ECO"}, {"data": "2023-11-08", "data_label": "08/11/2023", "exposicao": 0.027923, "admin_price": 882.745806, "fundo": "ECO"}, {"data": "2023-11-09", "data_label": "09/11/2023", "exposicao": 0.028031, "admin_price": 887.090626, "fundo": "ECO"}, {"data": "2023-11-10", "data_label": "10/11/2023", "exposicao": 0.025613, "admin_price": 815.142597, "fundo": "ECO"}, {"data": "2023-11-13", "data_label": "13/11/2023", "exposicao": 0.025568, "admin_price": 814.42504, "fundo": "ECO"}, {"data": "2023-11-14", "data_label": "14/11/2023", "exposicao": 0.025516, "admin_price": 813.303403, "fundo": "ECO"}, {"data": "2023-11-16", "data_label": "16/11/2023", "exposicao": 0.02564, "admin_price": 818.042487, "fundo": "ECO"}, {"data": "2023-11-17", "data_label": "17/11/2023", "exposicao": 0.025517, "admin_price": 814.293713, "fundo": "ECO"}, {"data": "2023-11-20", "data_label": "20/11/2023", "exposicao": 0.02557, "admin_price": 816.248098, "fundo": "ECO"}, {"data": "2023-11-21", "data_label": "21/11/2023", "exposicao": 0.025795, "admin_price": 823.201958, "fundo": "ECO"}, {"data": "2023-11-22", "data_label": "22/11/2023", "exposicao": 0.025805, "admin_price": 823.658246, "fundo": "ECO"}, {"data": "2023-11-23", "data_label": "23/11/2023", "exposicao": 0.025822, "admin_price": 823.413919, "fundo": "ECO"}, {"data": "2023-11-24", "data_label": "24/11/2023", "exposicao": 0.025965, "admin_price": 828.520227, "fundo": "ECO"}, {"data": "2023-11-27", "data_label": "27/11/2023", "exposicao": 0.026051, "admin_price": 832.040033, "fundo": "ECO"}, {"data": "2023-11-28", "data_label": "28/11/2023", "exposicao": 0.0261, "admin_price": 834.177665, "fundo": "ECO"}, {"data": "2023-11-29", "data_label": "29/11/2023", "exposicao": 0.026268, "admin_price": 840.466595, "fundo": "ECO"}, {"data": "2023-11-30", "data_label": "30/11/2023", "exposicao": 0.026326, "admin_price": 840.495486, "fundo": "ECO"}, {"data": "2023-12-01", "data_label": "01/12/2023", "exposicao": 0.026666, "admin_price": 841.853733, "fundo": "ECO"}, {"data": "2023-12-04", "data_label": "04/12/2023", "exposicao": 0.026471, "admin_price": 834.11868, "fundo": "ECO"}, {"data": "2023-12-05", "data_label": "05/12/2023", "exposicao": 0.02659, "admin_price": 835.348386, "fundo": "ECO"}, {"data": "2023-12-06", "data_label": "06/12/2023", "exposicao": 0.026782, "admin_price": 842.016934, "fundo": "ECO"}, {"data": "2023-12-07", "data_label": "07/12/2023", "exposicao": 0.027096, "admin_price": 844.988217, "fundo": "ECO"}, {"data": "2023-12-08", "data_label": "08/12/2023", "exposicao": 0.02727, "admin_price": 850.956647, "fundo": "ECO"}, {"data": "2023-12-11", "data_label": "11/12/2023", "exposicao": 0.027734, "admin_price": 866.027089, "fundo": "ECO"}, {"data": "2023-12-12", "data_label": "12/12/2023", "exposicao": 0.028071, "admin_price": 877.183677, "fundo": "ECO"}, {"data": "2023-12-13", "data_label": "13/12/2023", "exposicao": 0.028468, "admin_price": 888.884636, "fundo": "ECO"}, {"data": "2023-12-14", "data_label": "14/12/2023", "exposicao": 0.028453, "admin_price": 888.423334, "fundo": "ECO"}, {"data": "2023-12-15", "data_label": "15/12/2023", "exposicao": 0.028593, "admin_price": 892.570138, "fundo": "ECO"}, {"data": "2023-12-18", "data_label": "18/12/2023", "exposicao": 0.028361, "admin_price": 886.751975, "fundo": "ECO"}, {"data": "2023-12-19", "data_label": "19/12/2023", "exposicao": 0.028468, "admin_price": 888.037419, "fundo": "ECO"}, {"data": "2023-12-20", "data_label": "20/12/2023", "exposicao": 0.028492, "admin_price": 888.954778, "fundo": "ECO"}, {"data": "2023-12-21", "data_label": "21/12/2023", "exposicao": 0.028566, "admin_price": 885.212876, "fundo": "ECO"}, {"data": "2023-12-22", "data_label": "22/12/2023", "exposicao": 0.028535, "admin_price": 884.264756, "fundo": "ECO"}, {"data": "2023-12-26", "data_label": "26/12/2023", "exposicao": 0.029103, "admin_price": 887.382202, "fundo": "ECO"}, {"data": "2023-12-27", "data_label": "27/12/2023", "exposicao": 0.028854, "admin_price": 880.824782, "fundo": "ECO"}, {"data": "2023-12-28", "data_label": "28/12/2023", "exposicao": 0.028815, "admin_price": 879.401456, "fundo": "ECO"}, {"data": "2023-12-29", "data_label": "29/12/2023", "exposicao": 0.028822, "admin_price": 880.153223, "fundo": "ECO"}, {"data": "2024-01-02", "data_label": "02/01/2024", "exposicao": 0.028815, "admin_price": 880.577635, "fundo": "ECO"}, {"data": "2024-01-03", "data_label": "03/01/2024", "exposicao": 0.029457, "admin_price": 892.323814, "fundo": "ECO"}, {"data": "2024-01-04", "data_label": "04/01/2024", "exposicao": 0.0296, "admin_price": 897.241171, "fundo": "ECO"}, {"data": "2024-01-05", "data_label": "05/01/2024", "exposicao": 0.029462, "admin_price": 893.47391, "fundo": "ECO"}, {"data": "2024-01-08", "data_label": "08/01/2024", "exposicao": 0.029603, "admin_price": 897.732993, "fundo": "ECO"}, {"data": "2024-01-09", "data_label": "09/01/2024", "exposicao": 0.029625, "admin_price": 899.658484, "fundo": "ECO"}, {"data": "2024-01-10", "data_label": "10/01/2024", "exposicao": 0.029865, "admin_price": 907.451244, "fundo": "ECO"}, {"data": "2024-01-11", "data_label": "11/01/2024", "exposicao": 0.029853, "admin_price": 907.434715, "fundo": "ECO"}, {"data": "2024-01-12", "data_label": "12/01/2024", "exposicao": 0.029607, "admin_price": 899.531011, "fundo": "ECO"}, {"data": "2024-01-15", "data_label": "15/01/2024", "exposicao": 0.029659, "admin_price": 902.057891, "fundo": "ECO"}, {"data": "2024-01-16", "data_label": "16/01/2024", "exposicao": 0.02945, "admin_price": 895.997478, "fundo": "ECO"}, {"data": "2024-01-17", "data_label": "17/01/2024", "exposicao": 0.029245, "admin_price": 888.371391, "fundo": "ECO"}, {"data": "2024-01-18", "data_label": "18/01/2024", "exposicao": 0.029489, "admin_price": 896.80136, "fundo": "ECO"}, {"data": "2024-01-19", "data_label": "19/01/2024", "exposicao": 0.029777, "admin_price": 905.490072, "fundo": "ECO"}, {"data": "2024-01-22", "data_label": "22/01/2024", "exposicao": 0.029651, "admin_price": 901.863694, "fundo": "ECO"}, {"data": "2024-01-23", "data_label": "23/01/2024", "exposicao": 0.029894, "admin_price": 908.004207, "fundo": "ECO"}, {"data": "2024-01-24", "data_label": "24/01/2024", "exposicao": 0.02993, "admin_price": 910.375371, "fundo": "ECO"}, {"data": "2024-01-25", "data_label": "25/01/2024", "exposicao": 0.029931, "admin_price": 911.082041, "fundo": "ECO"}, {"data": "2024-01-26", "data_label": "26/01/2024", "exposicao": 0.029964, "admin_price": 911.440511, "fundo": "ECO"}, {"data": "2024-01-29", "data_label": "29/01/2024", "exposicao": 0.029949, "admin_price": 912.078071, "fundo": "ECO"}, {"data": "2024-01-30", "data_label": "30/01/2024", "exposicao": 0.0301, "admin_price": 917.55303, "fundo": "ECO"}, {"data": "2024-01-31", "data_label": "31/01/2024", "exposicao": 0.029812, "admin_price": 917.564384, "fundo": "ECO"}, {"data": "2024-02-01", "data_label": "01/02/2024", "exposicao": 0.029796, "admin_price": 916.974537, "fundo": "ECO"}, {"data": "2024-02-02", "data_label": "02/02/2024", "exposicao": 0.029857, "admin_price": 918.106258, "fundo": "ECO"}, {"data": "2024-02-05", "data_label": "05/02/2024", "exposicao": 0.02986, "admin_price": 918.11906, "fundo": "ECO"}, {"data": "2024-02-06", "data_label": "06/02/2024", "exposicao": 0.030486, "admin_price": 919.621245, "fundo": "ECO"}, {"data": "2024-02-07", "data_label": "07/02/2024", "exposicao": 0.030514, "admin_price": 921.19469, "fundo": "ECO"}, {"data": "2024-02-08", "data_label": "08/02/2024", "exposicao": 0.030548, "admin_price": 922.86943, "fundo": "ECO"}, {"data": "2024-02-09", "data_label": "09/02/2024", "exposicao": 0.030549, "admin_price": 923.643663, "fundo": "ECO"}, {"data": "2024-02-14", "data_label": "14/02/2024", "exposicao": 0.030376, "admin_price": 912.913358, "fundo": "ECO"}, {"data": "2024-02-15", "data_label": "15/02/2024", "exposicao": 0.030425, "admin_price": 914.970084, "fundo": "ECO"}, {"data": "2024-02-16", "data_label": "16/02/2024", "exposicao": 0.030818, "admin_price": 927.865026, "fundo": "ECO"}, {"data": "2024-02-19", "data_label": "19/02/2024", "exposicao": 0.030835, "admin_price": 926.45238, "fundo": "ECO"}, {"data": "2024-02-20", "data_label": "20/02/2024", "exposicao": 0.030826, "admin_price": 927.257561, "fundo": "ECO"}, {"data": "2024-02-21", "data_label": "21/02/2024", "exposicao": 0.030839, "admin_price": 928.690102, "fundo": "ECO"}, {"data": "2024-02-22", "data_label": "22/02/2024", "exposicao": 0.030628, "admin_price": 922.731863, "fundo": "ECO"}, {"data": "2024-02-23", "data_label": "23/02/2024", "exposicao": 0.030905, "admin_price": 931.381985, "fundo": "ECO"}, {"data": "2024-02-26", "data_label": "26/02/2024", "exposicao": 0.031066, "admin_price": 937.515803, "fundo": "ECO"}, {"data": "2024-02-27", "data_label": "27/02/2024", "exposicao": 0.030945, "admin_price": 933.577689, "fundo": "ECO"}, {"data": "2024-02-28", "data_label": "28/02/2024", "exposicao": 0.030988, "admin_price": 936.47434, "fundo": "ECO"}, {"data": "2024-02-29", "data_label": "29/02/2024", "exposicao": 0.031251, "admin_price": 944.496511, "fundo": "ECO"}, {"data": "2024-03-01", "data_label": "01/03/2024", "exposicao": 0.031262, "admin_price": 945.555507, "fundo": "ECO"}, {"data": "2024-03-04", "data_label": "04/03/2024", "exposicao": 0.0313, "admin_price": 943.790629, "fundo": "ECO"}, {"data": "2024-03-05", "data_label": "05/03/2024", "exposicao": 0.031285, "admin_price": 943.647958, "fundo": "ECO"}, {"data": "2024-03-06", "data_label": "06/03/2024", "exposicao": 0.031716, "admin_price": 957.634585, "fundo": "ECO"}, {"data": "2024-03-07", "data_label": "07/03/2024", "exposicao": 0.031504, "admin_price": 960.456641, "fundo": "ECO"}, {"data": "2024-03-08", "data_label": "08/03/2024", "exposicao": 0.030998, "admin_price": 960.424759, "fundo": "ECO"}, {"data": "2024-03-11", "data_label": "11/03/2024", "exposicao": 0.030851, "admin_price": 966.106296, "fundo": "ECO"}, {"data": "2024-03-12", "data_label": "12/03/2024", "exposicao": 0.030623, "admin_price": 970.769364, "fundo": "ECO"}, {"data": "2024-03-13", "data_label": "13/03/2024", "exposicao": 0.030245, "admin_price": 970.649917, "fundo": "ECO"}, {"data": "2024-03-14", "data_label": "14/03/2024", "exposicao": 0.030305, "admin_price": 972.857582, "fundo": "ECO"}, {"data": "2024-03-15", "data_label": "15/03/2024", "exposicao": 0.030442, "admin_price": 978.087478, "fundo": "ECO"}, {"data": "2024-03-18", "data_label": "18/03/2024", "exposicao": 0.030431, "admin_price": 977.850082, "fundo": "ECO"}, {"data": "2024-03-19", "data_label": "19/03/2024", "exposicao": 0.030545, "admin_price": 979.140272, "fundo": "ECO"}, {"data": "2024-03-20", "data_label": "20/03/2024", "exposicao": 0.030675, "admin_price": 982.735383, "fundo": "ECO"}, {"data": "2024-03-21", "data_label": "21/03/2024", "exposicao": 0.030727, "admin_price": 984.620942, "fundo": "ECO"}, {"data": "2024-03-22", "data_label": "22/03/2024", "exposicao": 0.0308, "admin_price": 987.4403, "fundo": "ECO"}, {"data": "2024-03-25", "data_label": "25/03/2024", "exposicao": 0.030787, "admin_price": 986.819482, "fundo": "ECO"}, {"data": "2024-03-26", "data_label": "26/03/2024", "exposicao": 0.030948, "admin_price": 988.130343, "fundo": "ECO"}, {"data": "2024-03-27", "data_label": "27/03/2024", "exposicao": 0.030982, "admin_price": 989.026497, "fundo": "ECO"}, {"data": "2024-03-28", "data_label": "28/03/2024", "exposicao": 0.031001, "admin_price": 990.469038, "fundo": "ECO"}, {"data": "2024-04-01", "data_label": "01/04/2024", "exposicao": 0.030984, "admin_price": 989.477397, "fundo": "ECO"}, {"data": "2024-04-02", "data_label": "02/04/2024", "exposicao": 0.031161, "admin_price": 990.716299, "fundo": "ECO"}, {"data": "2024-04-03", "data_label": "03/04/2024", "exposicao": 0.031184, "admin_price": 992.254373, "fundo": "ECO"}, {"data": "2024-04-04", "data_label": "04/04/2024", "exposicao": 0.031192, "admin_price": 992.823643, "fundo": "ECO"}, {"data": "2024-04-05", "data_label": "05/04/2024", "exposicao": 0.03119, "admin_price": 993.059187, "fundo": "ECO"}, {"data": "2024-04-08", "data_label": "08/04/2024", "exposicao": 0.031185, "admin_price": 993.062917, "fundo": "ECO"}, {"data": "2024-04-09", "data_label": "09/04/2024", "exposicao": 0.038588, "admin_price": 993.681421, "fundo": "ECO"}, {"data": "2024-04-10", "data_label": "10/04/2024", "exposicao": 0.038866, "admin_price": 994.117631, "fundo": "ECO"}, {"data": "2024-04-11", "data_label": "11/04/2024", "exposicao": 0.038916, "admin_price": 995.141698, "fundo": "ECO"}, {"data": "2024-04-12", "data_label": "12/04/2024", "exposicao": 0.039354, "admin_price": 996.567709, "fundo": "ECO"}, {"data": "2024-04-15", "data_label": "15/04/2024", "exposicao": 0.039364, "admin_price": 996.887154, "fundo": "ECO"}, {"data": "2024-04-16", "data_label": "16/04/2024", "exposicao": 0.039362, "admin_price": 997.949765, "fundo": "ECO"}, {"data": "2024-04-17", "data_label": "17/04/2024", "exposicao": 0.039479, "admin_price": 998.661972, "fundo": "ECO"}, {"data": "2024-04-18", "data_label": "18/04/2024", "exposicao": 0.039398, "admin_price": 999.552361, "fundo": "ECO"}, {"data": "2024-04-19", "data_label": "19/04/2024", "exposicao": 0.039442, "admin_price": 1000.882261, "fundo": "ECO"}, {"data": "2024-04-22", "data_label": "22/04/2024", "exposicao": 0.03942, "admin_price": 1000.701855, "fundo": "ECO"}, {"data": "2024-04-23", "data_label": "23/04/2024", "exposicao": 0.039476, "admin_price": 1001.727257, "fundo": "ECO"}, {"data": "2024-04-24", "data_label": "24/04/2024", "exposicao": 0.03768, "admin_price": 1002.343776, "fundo": "ECO"}, {"data": "2024-04-25", "data_label": "25/04/2024", "exposicao": 0.037686, "admin_price": 1002.629392, "fundo": "ECO"}, {"data": "2024-04-26", "data_label": "26/04/2024", "exposicao": 0.037684, "admin_price": 1003.618831, "fundo": "ECO"}, {"data": "2024-04-29", "data_label": "29/04/2024", "exposicao": 0.03767, "admin_price": 1003.957798, "fundo": "ECO"}, {"data": "2024-04-30", "data_label": "30/04/2024", "exposicao": 0.037694, "admin_price": 1004.978331, "fundo": "ECO"}, {"data": "2024-05-02", "data_label": "02/05/2024", "exposicao": 0.037764, "admin_price": 1005.579381, "fundo": "ECO"}, {"data": "2024-05-03", "data_label": "03/05/2024", "exposicao": 0.037855, "admin_price": 1007.20912, "fundo": "ECO"}, {"data": "2024-05-06", "data_label": "06/05/2024", "exposicao": 0.037888, "admin_price": 1008.283469, "fundo": "ECO"}, {"data": "2024-05-07", "data_label": "07/05/2024", "exposicao": 0.03792, "admin_price": 1009.496866, "fundo": "ECO"}, {"data": "2024-05-08", "data_label": "08/05/2024", "exposicao": 0.037964, "admin_price": 1010.484463, "fundo": "ECO"}, {"data": "2024-05-09", "data_label": "09/05/2024", "exposicao": 0.03798, "admin_price": 1010.454599, "fundo": "ECO"}, {"data": "2024-05-10", "data_label": "10/05/2024", "exposicao": 0.035684, "admin_price": 948.079998, "fundo": "ECO"}, {"data": "2024-05-13", "data_label": "13/05/2024", "exposicao": 0.035615, "admin_price": 949.242565, "fundo": "ECO"}, {"data": "2024-05-14", "data_label": "14/05/2024", "exposicao": 0.034437, "admin_price": 949.871815, "fundo": "ECO"}, {"data": "2024-05-15", "data_label": "15/05/2024", "exposicao": 0.034451, "admin_price": 950.8582, "fundo": "ECO"}, {"data": "2024-05-16", "data_label": "16/05/2024", "exposicao": 0.034306, "admin_price": 950.028885, "fundo": "ECO"}, {"data": "2024-05-17", "data_label": "17/05/2024", "exposicao": 0.034315, "admin_price": 949.98256, "fundo": "ECO"}, {"data": "2024-05-20", "data_label": "20/05/2024", "exposicao": 0.034317, "admin_price": 951.284392, "fundo": "ECO"}, {"data": "2024-05-21", "data_label": "21/05/2024", "exposicao": 0.034335, "admin_price": 952.627009, "fundo": "ECO"}, {"data": "2024-05-22", "data_label": "22/05/2024", "exposicao": 0.034442, "admin_price": 955.618498, "fundo": "ECO"}, {"data": "2024-05-23", "data_label": "23/05/2024", "exposicao": 0.034423, "admin_price": 955.462772, "fundo": "ECO"}, {"data": "2024-05-24", "data_label": "24/05/2024", "exposicao": 0.034447, "admin_price": 955.792685, "fundo": "ECO"}, {"data": "2024-05-27", "data_label": "27/05/2024", "exposicao": 0.034496, "admin_price": 957.052438, "fundo": "ECO"}, {"data": "2024-05-28", "data_label": "28/05/2024", "exposicao": 0.034451, "admin_price": 957.358304, "fundo": "ECO"}, {"data": "2024-05-29", "data_label": "29/05/2024", "exposicao": 0.034491, "admin_price": 957.930348, "fundo": "ECO"}, {"data": "2024-05-31", "data_label": "31/05/2024", "exposicao": 0.03497, "admin_price": 957.763954, "fundo": "ECO"}, {"data": "2024-06-03", "data_label": "03/06/2024", "exposicao": 0.033433, "admin_price": 958.942333, "fundo": "ECO"}, {"data": "2024-06-04", "data_label": "04/06/2024", "exposicao": 0.033583, "admin_price": 959.919911, "fundo": "ECO"}, {"data": "2024-06-05", "data_label": "05/06/2024", "exposicao": 0.033559, "admin_price": 960.295352, "fundo": "ECO"}, {"data": "2024-06-06", "data_label": "06/06/2024", "exposicao": 0.033575, "admin_price": 960.844451, "fundo": "ECO"}, {"data": "2024-06-07", "data_label": "07/06/2024", "exposicao": 0.033663, "admin_price": 962.245947, "fundo": "ECO"}, {"data": "2024-06-10", "data_label": "10/06/2024", "exposicao": 0.033644, "admin_price": 962.842262, "fundo": "ECO"}, {"data": "2024-06-11", "data_label": "11/06/2024", "exposicao": 0.033595, "admin_price": 962.408621, "fundo": "ECO"}, {"data": "2024-06-12", "data_label": "12/06/2024", "exposicao": 0.033304, "admin_price": 963.480576, "fundo": "ECO"}, {"data": "2024-06-13", "data_label": "13/06/2024", "exposicao": 0.033485, "admin_price": 964.527093, "fundo": "ECO"}, {"data": "2024-06-14", "data_label": "14/06/2024", "exposicao": 0.033325, "admin_price": 964.633773, "fundo": "ECO"}, {"data": "2024-06-17", "data_label": "17/06/2024", "exposicao": 0.033233, "admin_price": 965.789853, "fundo": "ECO"}, {"data": "2024-06-18", "data_label": "18/06/2024", "exposicao": 0.033179, "admin_price": 966.473589, "fundo": "ECO"}, {"data": "2024-06-19", "data_label": "19/06/2024", "exposicao": 0.033186, "admin_price": 966.915681, "fundo": "ECO"}, {"data": "2024-06-20", "data_label": "20/06/2024", "exposicao": 0.032605, "admin_price": 967.596047, "fundo": "ECO"}, {"data": "2024-06-21", "data_label": "21/06/2024", "exposicao": 0.032643, "admin_price": 967.982925, "fundo": "ECO"}, {"data": "2024-06-24", "data_label": "24/06/2024", "exposicao": 0.032674, "admin_price": 968.38996, "fundo": "ECO"}, {"data": "2024-06-25", "data_label": "25/06/2024", "exposicao": 0.030297, "admin_price": 968.832548, "fundo": "ECO"}, {"data": "2024-06-26", "data_label": "26/06/2024", "exposicao": 0.030311, "admin_price": 969.40496, "fundo": "ECO"}, {"data": "2024-06-27", "data_label": "27/06/2024", "exposicao": 0.031025, "admin_price": 970.077327, "fundo": "ECO"}, {"data": "2024-06-28", "data_label": "28/06/2024", "exposicao": 0.031049, "admin_price": 971.018716, "fundo": "ECO"}, {"data": "2024-07-01", "data_label": "01/07/2024", "exposicao": 0.031077, "admin_price": 971.709453, "fundo": "ECO"}, {"data": "2024-07-02", "data_label": "02/07/2024", "exposicao": 0.030862, "admin_price": 971.844854, "fundo": "ECO"}, {"data": "2024-07-03", "data_label": "03/07/2024", "exposicao": 0.030888, "admin_price": 972.777897, "fundo": "ECO"}, {"data": "2024-07-04", "data_label": "04/07/2024", "exposicao": 0.029982, "admin_price": 973.411225, "fundo": "ECO"}, {"data": "2024-07-05", "data_label": "05/07/2024", "exposicao": 0.03002, "admin_price": 974.447104, "fundo": "ECO"}, {"data": "2024-07-08", "data_label": "08/07/2024", "exposicao": 0.030056, "admin_price": 974.996666, "fundo": "ECO"}, {"data": "2024-07-09", "data_label": "09/07/2024", "exposicao": 0.030118, "admin_price": 976.020104, "fundo": "ECO"}, {"data": "2024-07-10", "data_label": "10/07/2024", "exposicao": 0.030106, "admin_price": 976.57647, "fundo": "ECO"}, {"data": "2024-07-11", "data_label": "11/07/2024", "exposicao": 0.029237, "admin_price": 977.613199, "fundo": "ECO"}, {"data": "2024-07-12", "data_label": "12/07/2024", "exposicao": 0.02881, "admin_price": 978.040416, "fundo": "ECO"}, {"data": "2024-07-15", "data_label": "15/07/2024", "exposicao": 0.028809, "admin_price": 978.583987, "fundo": "ECO"}, {"data": "2024-07-16", "data_label": "16/07/2024", "exposicao": 0.028839, "admin_price": 979.291345, "fundo": "ECO"}, {"data": "2024-07-17", "data_label": "17/07/2024", "exposicao": 0.02888, "admin_price": 980.560386, "fundo": "ECO"}, {"data": "2024-07-18", "data_label": "18/07/2024", "exposicao": 0.028433, "admin_price": 980.917973, "fundo": "ECO"}, {"data": "2024-07-19", "data_label": "19/07/2024", "exposicao": 0.027404, "admin_price": 981.333122, "fundo": "ECO"}, {"data": "2024-07-22", "data_label": "22/07/2024", "exposicao": 0.02739, "admin_price": 981.968997, "fundo": "ECO"}, {"data": "2024-07-23", "data_label": "23/07/2024", "exposicao": 0.027527, "admin_price": 982.54607, "fundo": "ECO"}, {"data": "2024-07-24", "data_label": "24/07/2024", "exposicao": 0.027242, "admin_price": 983.412684, "fundo": "ECO"}, {"data": "2024-07-25", "data_label": "25/07/2024", "exposicao": 0.027248, "admin_price": 983.805345, "fundo": "ECO"}, {"data": "2024-07-26", "data_label": "26/07/2024", "exposicao": 0.027275, "admin_price": 984.586659, "fundo": "ECO"}, {"data": "2024-07-29", "data_label": "29/07/2024", "exposicao": 0.027293, "admin_price": 985.334611, "fundo": "ECO"}, {"data": "2024-07-30", "data_label": "30/07/2024", "exposicao": 0.027328, "admin_price": 986.206047, "fundo": "ECO"}, {"data": "2024-07-31", "data_label": "31/07/2024", "exposicao": 0.027373, "admin_price": 988.163056, "fundo": "ECO"}, {"data": "2024-08-01", "data_label": "01/08/2024", "exposicao": 0.027164, "admin_price": 989.419288, "fundo": "ECO"}, {"data": "2024-08-02", "data_label": "02/08/2024", "exposicao": 0.027261, "admin_price": 989.854038, "fundo": "ECO"}, {"data": "2024-08-05", "data_label": "05/08/2024", "exposicao": 0.027282, "admin_price": 990.635879, "fundo": "ECO"}, {"data": "2024-08-06", "data_label": "06/08/2024", "exposicao": 0.027286, "admin_price": 990.984929, "fundo": "ECO"}, {"data": "2024-08-07", "data_label": "07/08/2024", "exposicao": 0.026893, "admin_price": 991.529347, "fundo": "ECO"}, {"data": "2024-08-08", "data_label": "08/08/2024", "exposicao": 0.027004, "admin_price": 994.442066, "fundo": "ECO"}, {"data": "2024-08-09", "data_label": "09/08/2024", "exposicao": 0.027037, "admin_price": 995.722685, "fundo": "ECO"}, {"data": "2024-08-12", "data_label": "12/08/2024", "exposicao": 0.027118, "admin_price": 997.333144, "fundo": "ECO"}, {"data": "2024-08-13", "data_label": "13/08/2024", "exposicao": 0.027184, "admin_price": 998.651015, "fundo": "ECO"}, {"data": "2024-08-14", "data_label": "14/08/2024", "exposicao": 0.027241, "admin_price": 1000.113918, "fundo": "ECO"}, {"data": "2024-08-15", "data_label": "15/08/2024", "exposicao": 0.027247, "admin_price": 1000.595884, "fundo": "ECO"}, {"data": "2024-08-16", "data_label": "16/08/2024", "exposicao": 0.026289, "admin_price": 1000.868365, "fundo": "ECO"}, {"data": "2024-08-19", "data_label": "19/08/2024", "exposicao": 0.026291, "admin_price": 1001.641644, "fundo": "ECO"}, {"data": "2024-08-20", "data_label": "20/08/2024", "exposicao": 0.026299, "admin_price": 1000.602187, "fundo": "ECO"}, {"data": "2024-08-21", "data_label": "21/08/2024", "exposicao": 0.026319, "admin_price": 1000.989943, "fundo": "ECO"}, {"data": "2024-08-22", "data_label": "22/08/2024", "exposicao": 0.046184, "admin_price": 1001.918237, "fundo": "ECO"}, {"data": "2024-08-23", "data_label": "23/08/2024", "exposicao": 0.045252, "admin_price": 1003.181358, "fundo": "ECO"}, {"data": "2024-08-26", "data_label": "26/08/2024", "exposicao": 0.045297, "admin_price": 1004.478258, "fundo": "ECO"}, {"data": "2024-08-27", "data_label": "27/08/2024", "exposicao": 0.045389, "admin_price": 1005.693038, "fundo": "ECO"}, {"data": "2024-08-28", "data_label": "28/08/2024", "exposicao": 0.045432, "admin_price": 1005.926048, "fundo": "ECO"}, {"data": "2024-08-29", "data_label": "29/08/2024", "exposicao": 0.045799, "admin_price": 1007.745022, "fundo": "ECO"}, {"data": "2024-08-30", "data_label": "30/08/2024", "exposicao": 0.046015, "admin_price": 1006.66436, "fundo": "ECO"}, {"data": "2024-09-02", "data_label": "02/09/2024", "exposicao": 0.046015, "admin_price": 1006.401396, "fundo": "ECO"}, {"data": "2024-09-03", "data_label": "03/09/2024", "exposicao": 0.046156, "admin_price": 1007.474387, "fundo": "ECO"}, {"data": "2024-09-04", "data_label": "04/09/2024", "exposicao": 0.047279, "admin_price": 1008.194908, "fundo": "ECO"}, {"data": "2024-09-05", "data_label": "05/09/2024", "exposicao": 0.047809, "admin_price": 1008.004853, "fundo": "ECO"}, {"data": "2024-09-06", "data_label": "06/09/2024", "exposicao": 0.04763, "admin_price": 1008.949886, "fundo": "ECO"}, {"data": "2024-09-09", "data_label": "09/09/2024", "exposicao": 0.047363, "admin_price": 1009.569551, "fundo": "ECO"}, {"data": "2024-09-10", "data_label": "10/09/2024", "exposicao": 0.047477, "admin_price": 1010.281803, "fundo": "ECO"}, {"data": "2024-09-11", "data_label": "11/09/2024", "exposicao": 0.047331, "admin_price": 1010.702896, "fundo": "ECO"}, {"data": "2024-09-12", "data_label": "12/09/2024", "exposicao": 0.047488, "admin_price": 1010.777656, "fundo": "ECO"}, {"data": "2024-09-13", "data_label": "13/09/2024", "exposicao": 0.047451, "admin_price": 1011.018612, "fundo": "ECO"}, {"data": "2024-09-16", "data_label": "16/09/2024", "exposicao": 0.047231, "admin_price": 1011.471534, "fundo": "ECO"}, {"data": "2024-09-17", "data_label": "17/09/2024", "exposicao": 0.047248, "admin_price": 1012.02927, "fundo": "ECO"}, {"data": "2024-09-18", "data_label": "18/09/2024", "exposicao": 0.047471, "admin_price": 1012.630242, "fundo": "ECO"}, {"data": "2024-09-19", "data_label": "19/09/2024", "exposicao": 0.047515, "admin_price": 1013.180832, "fundo": "ECO"}, {"data": "2024-09-20", "data_label": "20/09/2024", "exposicao": 0.047562, "admin_price": 1013.770848, "fundo": "ECO"}, {"data": "2024-09-23", "data_label": "23/09/2024", "exposicao": 0.047643, "admin_price": 1014.343266, "fundo": "ECO"}, {"data": "2024-09-24", "data_label": "24/09/2024", "exposicao": 0.047768, "admin_price": 1014.988543, "fundo": "ECO"}, {"data": "2024-09-25", "data_label": "25/09/2024", "exposicao": 0.047806, "admin_price": 1015.678637, "fundo": "ECO"}, {"data": "2024-09-26", "data_label": "26/09/2024", "exposicao": 0.047826, "admin_price": 1016.129642, "fundo": "ECO"}, {"data": "2024-09-27", "data_label": "27/09/2024", "exposicao": 0.047884, "admin_price": 1016.736182, "fundo": "ECO"}, {"data": "2024-09-30", "data_label": "30/09/2024", "exposicao": 0.04793, "admin_price": 1017.171724, "fundo": "ECO"}, {"data": "2024-10-01", "data_label": "01/10/2024", "exposicao": 0.047998, "admin_price": 1017.477549, "fundo": "ECO"}, {"data": "2024-10-02", "data_label": "02/10/2024", "exposicao": 0.0481, "admin_price": 1017.799076, "fundo": "ECO"}, {"data": "2024-10-03", "data_label": "03/10/2024", "exposicao": 0.048115, "admin_price": 1018.543944, "fundo": "ECO"}, {"data": "2024-10-04", "data_label": "04/10/2024", "exposicao": 0.048254, "admin_price": 1018.24919, "fundo": "ECO"}, {"data": "2024-10-07", "data_label": "07/10/2024", "exposicao": 0.048271, "admin_price": 1019.095938, "fundo": "ECO"}, {"data": "2024-10-08", "data_label": "08/10/2024", "exposicao": 0.048277, "admin_price": 1019.272281, "fundo": "ECO"}, {"data": "2024-10-09", "data_label": "09/10/2024", "exposicao": 0.048203, "admin_price": 1020.449372, "fundo": "ECO"}, {"data": "2024-10-10", "data_label": "10/10/2024", "exposicao": 0.048293, "admin_price": 1021.390174, "fundo": "ECO"}, {"data": "2024-10-11", "data_label": "11/10/2024", "exposicao": 0.048283, "admin_price": 1022.014115, "fundo": "ECO"}, {"data": "2024-10-14", "data_label": "14/10/2024", "exposicao": 0.04833, "admin_price": 1022.158335, "fundo": "ECO"}, {"data": "2024-10-15", "data_label": "15/10/2024", "exposicao": 0.048314, "admin_price": 1022.541059, "fundo": "ECO"}, {"data": "2024-10-16", "data_label": "16/10/2024", "exposicao": 0.048416, "admin_price": 1023.389426, "fundo": "ECO"}, {"data": "2024-10-17", "data_label": "17/10/2024", "exposicao": 0.048485, "admin_price": 1023.920102, "fundo": "ECO"}, {"data": "2024-10-18", "data_label": "18/10/2024", "exposicao": 0.048586, "admin_price": 1023.88238, "fundo": "ECO"}, {"data": "2024-10-21", "data_label": "21/10/2024", "exposicao": 0.048679, "admin_price": 1025.111524, "fundo": "ECO"}, {"data": "2024-10-22", "data_label": "22/10/2024", "exposicao": 0.048698, "admin_price": 1025.300634, "fundo": "ECO"}, {"data": "2024-10-23", "data_label": "23/10/2024", "exposicao": 0.048227, "admin_price": 1025.729782, "fundo": "ECO"}, {"data": "2024-10-24", "data_label": "24/10/2024", "exposicao": 0.048201, "admin_price": 1025.921974, "fundo": "ECO"}, {"data": "2024-10-25", "data_label": "25/10/2024", "exposicao": 0.04827, "admin_price": 1027.038724, "fundo": "ECO"}, {"data": "2024-10-28", "data_label": "28/10/2024", "exposicao": 0.048268, "admin_price": 1027.63828, "fundo": "ECO"}, {"data": "2024-10-29", "data_label": "29/10/2024", "exposicao": 0.04722, "admin_price": 1028.576858, "fundo": "ECO"}, {"data": "2024-10-30", "data_label": "30/10/2024", "exposicao": 0.046537, "admin_price": 1029.637216, "fundo": "ECO"}, {"data": "2024-10-31", "data_label": "31/10/2024", "exposicao": 0.046611, "admin_price": 1030.720442, "fundo": "ECO"}, {"data": "2024-11-01", "data_label": "01/11/2024", "exposicao": 0.046261, "admin_price": 1031.263995, "fundo": "ECO"}, {"data": "2024-11-04", "data_label": "04/11/2024", "exposicao": 0.046123, "admin_price": 1031.800117, "fundo": "ECO"}, {"data": "2024-11-05", "data_label": "05/11/2024", "exposicao": 0.045961, "admin_price": 1032.428367, "fundo": "ECO"}, {"data": "2024-11-06", "data_label": "06/11/2024", "exposicao": 0.045884, "admin_price": 1032.20448, "fundo": "ECO"}, {"data": "2024-11-07", "data_label": "07/11/2024", "exposicao": 0.04553, "admin_price": 1033.231137, "fundo": "ECO"}, {"data": "2024-11-08", "data_label": "08/11/2024", "exposicao": 0.045306, "admin_price": 1030.082211, "fundo": "ECO"}, {"data": "2024-11-11", "data_label": "11/11/2024", "exposicao": 0.04712, "admin_price": 976.413661, "fundo": "ECO"}, {"data": "2024-11-12", "data_label": "12/11/2024", "exposicao": 0.046942, "admin_price": 979.135304, "fundo": "ECO"}, {"data": "2024-11-13", "data_label": "13/11/2024", "exposicao": 0.048243, "admin_price": 981.153871, "fundo": "ECO"}, {"data": "2024-11-14", "data_label": "14/11/2024", "exposicao": 0.048147, "admin_price": 982.236548, "fundo": "ECO"}, {"data": "2024-11-18", "data_label": "18/11/2024", "exposicao": 0.048739, "admin_price": 983.123303, "fundo": "ECO"}, {"data": "2024-11-21", "data_label": "21/11/2024", "exposicao": 0.048424, "admin_price": 984.885479, "fundo": "ECO"}, {"data": "2024-11-22", "data_label": "22/11/2024", "exposicao": 0.048306, "admin_price": 986.630209, "fundo": "ECO"}, {"data": "2024-11-25", "data_label": "25/11/2024", "exposicao": 0.047993, "admin_price": 986.118544, "fundo": "ECO"}, {"data": "2024-11-26", "data_label": "26/11/2024", "exposicao": 0.047894, "admin_price": 986.294651, "fundo": "ECO"}, {"data": "2024-11-27", "data_label": "27/11/2024", "exposicao": 0.047849, "admin_price": 986.838492, "fundo": "ECO"}, {"data": "2024-11-28", "data_label": "28/11/2024", "exposicao": 0.047752, "admin_price": 987.22464, "fundo": "ECO"}, {"data": "2024-11-29", "data_label": "29/11/2024", "exposicao": 0.048178, "admin_price": 987.535578, "fundo": "ECO"}, {"data": "2024-12-02", "data_label": "02/12/2024", "exposicao": 0.048376, "admin_price": 987.969206, "fundo": "ECO"}, {"data": "2024-12-03", "data_label": "03/12/2024", "exposicao": 0.048282, "admin_price": 988.595282, "fundo": "ECO"}, {"data": "2024-12-04", "data_label": "04/12/2024", "exposicao": 0.04849, "admin_price": 989.214696, "fundo": "ECO"}, {"data": "2024-12-05", "data_label": "05/12/2024", "exposicao": 0.048399, "admin_price": 989.80144, "fundo": "ECO"}, {"data": "2024-12-06", "data_label": "06/12/2024", "exposicao": 0.048288, "admin_price": 990.299423, "fundo": "ECO"}, {"data": "2024-12-09", "data_label": "09/12/2024", "exposicao": 0.049248, "admin_price": 990.823123, "fundo": "ECO"}, {"data": "2024-12-10", "data_label": "10/12/2024", "exposicao": 0.049344, "admin_price": 990.86791, "fundo": "ECO"}, {"data": "2024-12-11", "data_label": "11/12/2024", "exposicao": 0.049114, "admin_price": 991.918695, "fundo": "ECO"}, {"data": "2024-12-12", "data_label": "12/12/2024", "exposicao": 0.048724, "admin_price": 992.238776, "fundo": "ECO"}, {"data": "2024-12-13", "data_label": "13/12/2024", "exposicao": 0.048537, "admin_price": 992.346893, "fundo": "ECO"}, {"data": "2024-12-16", "data_label": "16/12/2024", "exposicao": 0.049364, "admin_price": 992.505961, "fundo": "ECO"}, {"data": "2024-12-17", "data_label": "17/12/2024", "exposicao": 0.04917, "admin_price": 988.255577, "fundo": "ECO"}, {"data": "2024-12-18", "data_label": "18/12/2024", "exposicao": 0.049239, "admin_price": 988.385004, "fundo": "ECO"}, {"data": "2024-12-19", "data_label": "19/12/2024", "exposicao": 0.048683, "admin_price": 986.892779, "fundo": "ECO"}, {"data": "2024-12-20", "data_label": "20/12/2024", "exposicao": 0.04838, "admin_price": 980.431533, "fundo": "ECO"}, {"data": "2024-12-23", "data_label": "23/12/2024", "exposicao": 0.048142, "admin_price": 975.987699, "fundo": "ECO"}, {"data": "2024-12-24", "data_label": "24/12/2024", "exposicao": 0.048141, "admin_price": 976.678171, "fundo": "ECO"}, {"data": "2024-12-26", "data_label": "26/12/2024", "exposicao": 0.048122, "admin_price": 974.380499, "fundo": "ECO"}, {"data": "2024-12-27", "data_label": "27/12/2024", "exposicao": 0.04817, "admin_price": 976.071129, "fundo": "ECO"}, {"data": "2024-12-30", "data_label": "30/12/2024", "exposicao": 0.047031, "admin_price": 975.592949, "fundo": "ECO"}, {"data": "2024-12-31", "data_label": "31/12/2024", "exposicao": 0.047052, "admin_price": 976.298883, "fundo": "ECO"}, {"data": "2025-01-02", "data_label": "02/01/2025", "exposicao": 0.047129, "admin_price": 977.666162, "fundo": "ECO"}, {"data": "2025-01-03", "data_label": "03/01/2025", "exposicao": 0.04781, "admin_price": 977.880016, "fundo": "ECO"}, {"data": "2025-01-06", "data_label": "06/01/2025", "exposicao": 0.047767, "admin_price": 978.162327, "fundo": "ECO"}, {"data": "2025-01-07", "data_label": "07/01/2025", "exposicao": 0.047762, "admin_price": 978.679781, "fundo": "ECO"}, {"data": "2025-01-08", "data_label": "08/01/2025", "exposicao": 0.048079, "admin_price": 979.513225, "fundo": "ECO"}, {"data": "2025-01-09", "data_label": "09/01/2025", "exposicao": 0.047548, "admin_price": 977.824588, "fundo": "ECO"}, {"data": "2025-01-10", "data_label": "10/01/2025", "exposicao": 0.047366, "admin_price": 975.598374, "fundo": "ECO"}, {"data": "2025-01-13", "data_label": "13/01/2025", "exposicao": 0.047426, "admin_price": 976.70241, "fundo": "ECO"}, {"data": "2025-01-14", "data_label": "14/01/2025", "exposicao": 0.047452, "admin_price": 976.754388, "fundo": "ECO"}, {"data": "2025-01-15", "data_label": "15/01/2025", "exposicao": 0.047352, "admin_price": 977.33487, "fundo": "ECO"}, {"data": "2025-01-16", "data_label": "16/01/2025", "exposicao": 0.047345, "admin_price": 977.358401, "fundo": "ECO"}, {"data": "2025-01-17", "data_label": "17/01/2025", "exposicao": 0.047278, "admin_price": 979.061468, "fundo": "ECO"}, {"data": "2025-01-20", "data_label": "20/01/2025", "exposicao": 0.047201, "admin_price": 979.616673, "fundo": "ECO"}, {"data": "2025-01-21", "data_label": "21/01/2025", "exposicao": 0.047304, "admin_price": 981.225432, "fundo": "ECO"}, {"data": "2025-01-22", "data_label": "22/01/2025", "exposicao": 0.047096, "admin_price": 981.898681, "fundo": "ECO"}, {"data": "2025-01-23", "data_label": "23/01/2025", "exposicao": 0.047196, "admin_price": 983.252368, "fundo": "ECO"}, {"data": "2025-01-24", "data_label": "24/01/2025", "exposicao": 0.047152, "admin_price": 983.305047, "fundo": "ECO"}, {"data": "2025-01-27", "data_label": "27/01/2025", "exposicao": 0.047105, "admin_price": 983.479983, "fundo": "ECO"}, {"data": "2025-01-28", "data_label": "28/01/2025", "exposicao": 0.047121, "admin_price": 983.645709, "fundo": "ECO"}, {"data": "2025-01-29", "data_label": "29/01/2025", "exposicao": 0.047044, "admin_price": 984.13811, "fundo": "ECO"}, {"data": "2025-01-30", "data_label": "30/01/2025", "exposicao": 0.046916, "admin_price": 982.768506, "fundo": "ECO"}, {"data": "2025-01-31", "data_label": "31/01/2025", "exposicao": 0.046778, "admin_price": 982.355968, "fundo": "ECO"}, {"data": "2025-02-03", "data_label": "03/02/2025", "exposicao": 0.046677, "admin_price": 981.098264, "fundo": "ECO"}, {"data": "2025-02-04", "data_label": "04/02/2025", "exposicao": 0.046622, "admin_price": 981.559561, "fundo": "ECO"}, {"data": "2025-02-05", "data_label": "05/02/2025", "exposicao": 0.046577, "admin_price": 983.489108, "fundo": "ECO"}, {"data": "2025-02-06", "data_label": "06/02/2025", "exposicao": 0.046558, "admin_price": 984.327249, "fundo": "ECO"}, {"data": "2025-02-07", "data_label": "07/02/2025", "exposicao": 0.046669, "admin_price": 983.518702, "fundo": "ECO"}, {"data": "2025-02-10", "data_label": "10/02/2025", "exposicao": 0.046688, "admin_price": 985.253739, "fundo": "ECO"}, {"data": "2025-02-11", "data_label": "11/02/2025", "exposicao": 0.046571, "admin_price": 986.088658, "fundo": "ECO"}, {"data": "2025-02-12", "data_label": "12/02/2025", "exposicao": 0.046548, "admin_price": 986.88822, "fundo": "ECO"}, {"data": "2025-02-13", "data_label": "13/02/2025", "exposicao": 0.046506, "admin_price": 987.715862, "fundo": "ECO"}, {"data": "2025-02-14", "data_label": "14/02/2025", "exposicao": 0.046427, "admin_price": 989.799479, "fundo": "ECO"}, {"data": "2025-02-17", "data_label": "17/02/2025", "exposicao": 0.046239, "admin_price": 989.286377, "fundo": "ECO"}, {"data": "2025-02-18", "data_label": "18/02/2025", "exposicao": 0.046053, "admin_price": 986.02251, "fundo": "ECO"}, {"data": "2025-02-19", "data_label": "19/02/2025", "exposicao": 0.046965, "admin_price": 987.911319, "fundo": "ECO"}, {"data": "2025-02-20", "data_label": "20/02/2025", "exposicao": 0.046968, "admin_price": 986.146884, "fundo": "ECO"}, {"data": "2025-02-21", "data_label": "21/02/2025", "exposicao": 0.046933, "admin_price": 987.72343, "fundo": "ECO"}, {"data": "2025-02-24", "data_label": "24/02/2025", "exposicao": 0.046836, "admin_price": 988.520958, "fundo": "ECO"}, {"data": "2025-02-26", "data_label": "26/02/2025", "exposicao": 0.046712, "admin_price": 990.785999, "fundo": "ECO"}, {"data": "2025-02-27", "data_label": "27/02/2025", "exposicao": 0.046576, "admin_price": 989.133975, "fundo": "ECO"}, {"data": "2025-02-28", "data_label": "28/02/2025", "exposicao": 0.046629, "admin_price": 989.869157, "fundo": "ECO"}, {"data": "2025-03-05", "data_label": "05/03/2025", "exposicao": 0.046853, "admin_price": 991.787275, "fundo": "ECO"}, {"data": "2025-03-06", "data_label": "06/03/2025", "exposicao": 0.046869, "admin_price": 993.64479, "fundo": "ECO"}, {"data": "2025-03-07", "data_label": "07/03/2025", "exposicao": 0.046897, "admin_price": 995.527048, "fundo": "ECO"}, {"data": "2025-03-10", "data_label": "10/03/2025", "exposicao": 0.047021, "admin_price": 996.101666, "fundo": "ECO"}, {"data": "2025-03-11", "data_label": "11/03/2025", "exposicao": 0.04712, "admin_price": 997.031872, "fundo": "ECO"}, {"data": "2025-03-12", "data_label": "12/03/2025", "exposicao": 0.046919, "admin_price": 995.469561, "fundo": "ECO"}, {"data": "2025-03-13", "data_label": "13/03/2025", "exposicao": 0.047015, "admin_price": 996.433584, "fundo": "ECO"}, {"data": "2025-03-14", "data_label": "14/03/2025", "exposicao": 0.04717, "admin_price": 999.02586, "fundo": "ECO"}, {"data": "2025-03-17", "data_label": "17/03/2025", "exposicao": 0.047038, "admin_price": 997.471256, "fundo": "ECO"}, {"data": "2025-03-18", "data_label": "18/03/2025", "exposicao": 0.046974, "admin_price": 998.865925, "fundo": "ECO"}, {"data": "2025-03-19", "data_label": "19/03/2025", "exposicao": 0.046672, "admin_price": 1000.145356, "fundo": "ECO"}, {"data": "2025-03-20", "data_label": "20/03/2025", "exposicao": 0.046879, "admin_price": 1002.799683, "fundo": "ECO"}, {"data": "2025-03-21", "data_label": "21/03/2025", "exposicao": 0.046733, "admin_price": 1004.211888, "fundo": "ECO"}, {"data": "2025-03-24", "data_label": "24/03/2025", "exposicao": 0.046722, "admin_price": 1005.004361, "fundo": "ECO"}, {"data": "2025-03-25", "data_label": "25/03/2025", "exposicao": 0.046361, "admin_price": 1006.373098, "fundo": "ECO"}, {"data": "2025-03-26", "data_label": "26/03/2025", "exposicao": 0.046656, "admin_price": 1007.356306, "fundo": "ECO"}, {"data": "2025-03-27", "data_label": "27/03/2025", "exposicao": 0.046608, "admin_price": 1008.476444, "fundo": "ECO"}, {"data": "2025-03-28", "data_label": "28/03/2025", "exposicao": 0.046912, "admin_price": 1009.989512, "fundo": "ECO"}, {"data": "2025-03-31", "data_label": "31/03/2025", "exposicao": 0.046887, "admin_price": 1011.607, "fundo": "ECO"}, {"data": "2025-04-01", "data_label": "01/04/2025", "exposicao": 0.046873, "admin_price": 1011.956958, "fundo": "ECO"}, {"data": "2025-04-02", "data_label": "02/04/2025", "exposicao": 0.046745, "admin_price": 1012.924159, "fundo": "ECO"}, {"data": "2025-04-03", "data_label": "03/04/2025", "exposicao": 0.046774, "admin_price": 1013.549605, "fundo": "ECO"}, {"data": "2025-04-04", "data_label": "04/04/2025", "exposicao": 0.046967, "admin_price": 1012.784447, "fundo": "ECO"}, {"data": "2025-04-07", "data_label": "07/04/2025", "exposicao": 0.047148, "admin_price": 1014.286479, "fundo": "ECO"}, {"data": "2025-04-08", "data_label": "08/04/2025", "exposicao": 0.047326, "admin_price": 1015.453955, "fundo": "ECO"}, {"data": "2025-04-09", "data_label": "09/04/2025", "exposicao": 0.047487, "admin_price": 1017.472271, "fundo": "ECO"}, {"data": "2025-04-10", "data_label": "10/04/2025", "exposicao": 0.047487, "admin_price": 1017.757484, "fundo": "ECO"}, {"data": "2025-04-11", "data_label": "11/04/2025", "exposicao": 0.047526, "admin_price": 1019.150504, "fundo": "ECO"}, {"data": "2025-04-14", "data_label": "14/04/2025", "exposicao": 0.047405, "admin_price": 1019.880872, "fundo": "ECO"}, {"data": "2025-04-15", "data_label": "15/04/2025", "exposicao": 0.047406, "admin_price": 1020.439721, "fundo": "ECO"}, {"data": "2025-04-16", "data_label": "16/04/2025", "exposicao": 0.047347, "admin_price": 1021.254415, "fundo": "ECO"}, {"data": "2025-04-17", "data_label": "17/04/2025", "exposicao": 0.04732, "admin_price": 1022.781079, "fundo": "ECO"}, {"data": "2025-04-22", "data_label": "22/04/2025", "exposicao": 0.047515, "admin_price": 1023.654195, "fundo": "ECO"}, {"data": "2025-04-23", "data_label": "23/04/2025", "exposicao": 0.047307, "admin_price": 1022.931821, "fundo": "ECO"}, {"data": "2025-04-24", "data_label": "24/04/2025", "exposicao": 0.047662, "admin_price": 1024.844856, "fundo": "ECO"}, {"data": "2025-04-25", "data_label": "25/04/2025", "exposicao": 0.0476, "admin_price": 1026.318891, "fundo": "ECO"}, {"data": "2025-04-28", "data_label": "28/04/2025", "exposicao": 0.04775, "admin_price": 1028.470479, "fundo": "ECO"}, {"data": "2025-04-29", "data_label": "29/04/2025", "exposicao": 0.047601, "admin_price": 1029.471254, "fundo": "ECO"}, {"data": "2025-04-30", "data_label": "30/04/2025", "exposicao": 0.047769, "admin_price": 1030.306938, "fundo": "ECO"}, {"data": "2025-05-02", "data_label": "02/05/2025", "exposicao": 0.047748, "admin_price": 1031.248061, "fundo": "ECO"}, {"data": "2025-05-05", "data_label": "05/05/2025", "exposicao": 0.047932, "admin_price": 1032.135894, "fundo": "ECO"}, {"data": "2025-05-06", "data_label": "06/05/2025", "exposicao": 0.048729, "admin_price": 1033.120591, "fundo": "ECO"}, {"data": "2025-05-07", "data_label": "07/05/2025", "exposicao": 0.050666, "admin_price": 1033.187495, "fundo": "ECO"}, {"data": "2025-05-08", "data_label": "08/05/2025", "exposicao": 0.0507, "admin_price": 1034.348243, "fundo": "ECO"}, {"data": "2025-05-09", "data_label": "09/05/2025", "exposicao": 0.050793, "admin_price": 1035.163165, "fundo": "ECO"}, {"data": "2025-05-12", "data_label": "12/05/2025", "exposicao": 0.022932, "admin_price": 467.833582, "fundo": "ECO"}, {"data": "2025-05-13", "data_label": "13/05/2025", "exposicao": 0.022907, "admin_price": 468.21373, "fundo": "ECO"}, {"data": "2025-05-14", "data_label": "14/05/2025", "exposicao": 0.022912, "admin_price": 468.80559, "fundo": "ECO"}, {"data": "2025-05-15", "data_label": "15/05/2025", "exposicao": 0.022846, "admin_price": 468.98084, "fundo": "ECO"}, {"data": "2025-05-16", "data_label": "16/05/2025", "exposicao": 0.022339, "admin_price": 469.072824, "fundo": "ECO"}, {"data": "2025-05-19", "data_label": "19/05/2025", "exposicao": 0.022483, "admin_price": 469.811796, "fundo": "ECO"}, {"data": "2025-05-20", "data_label": "20/05/2025", "exposicao": 0.022486, "admin_price": 470.491698, "fundo": "ECO"}, {"data": "2025-05-21", "data_label": "21/05/2025", "exposicao": 0.02248, "admin_price": 470.678908, "fundo": "ECO"}, {"data": "2025-05-22", "data_label": "22/05/2025", "exposicao": 0.02249, "admin_price": 470.880207, "fundo": "ECO"}, {"data": "2025-05-23", "data_label": "23/05/2025", "exposicao": 0.022555, "admin_price": 470.999376, "fundo": "ECO"}, {"data": "2025-05-26", "data_label": "26/05/2025", "exposicao": 0.022509, "admin_price": 471.62457, "fundo": "ECO"}, {"data": "2025-05-27", "data_label": "27/05/2025", "exposicao": 0.02254, "admin_price": 472.716386, "fundo": "ECO"}, {"data": "2025-05-28", "data_label": "28/05/2025", "exposicao": 0.02269, "admin_price": 473.680835, "fundo": "ECO"}, {"data": "2025-05-29", "data_label": "29/05/2025", "exposicao": 0.0227, "admin_price": 474.144682, "fundo": "ECO"}, {"data": "2025-05-30", "data_label": "30/05/2025", "exposicao": 0.02289, "admin_price": 473.83107, "fundo": "ECO"}, {"data": "2025-06-02", "data_label": "02/06/2025", "exposicao": 0.022935, "admin_price": 474.744501, "fundo": "ECO"}, {"data": "2025-06-03", "data_label": "03/06/2025", "exposicao": 0.022966, "admin_price": 475.442637, "fundo": "ECO"}, {"data": "2025-06-04", "data_label": "04/06/2025", "exposicao": 0.02296, "admin_price": 475.871822, "fundo": "ECO"}, {"data": "2025-06-05", "data_label": "05/06/2025", "exposicao": 0.022955, "admin_price": 476.703849, "fundo": "ECO"}, {"data": "2025-06-06", "data_label": "06/06/2025", "exposicao": 0.0229, "admin_price": 476.623476, "fundo": "ECO"}, {"data": "2025-06-09", "data_label": "09/06/2025", "exposicao": 0.022815, "admin_price": 477.002169, "fundo": "ECO"}, {"data": "2025-06-10", "data_label": "10/06/2025", "exposicao": 0.022846, "admin_price": 477.615917, "fundo": "ECO"}, {"data": "2025-06-11", "data_label": "11/06/2025", "exposicao": 0.023417, "admin_price": 477.50131, "fundo": "ECO"}, {"data": "2025-06-12", "data_label": "12/06/2025", "exposicao": 0.023409, "admin_price": 477.617016, "fundo": "ECO"}, {"data": "2025-06-13", "data_label": "13/06/2025", "exposicao": 0.022391, "admin_price": 478.081917, "fundo": "ECO"}, {"data": "2025-06-16", "data_label": "16/06/2025", "exposicao": 0.023365, "admin_price": 478.443605, "fundo": "ECO"}, {"data": "2025-06-17", "data_label": "17/06/2025", "exposicao": 0.023356, "admin_price": 478.300172, "fundo": "ECO"}, {"data": "2025-06-18", "data_label": "18/06/2025", "exposicao": 0.023538, "admin_price": 479.162507, "fundo": "ECO"}, {"data": "2025-06-20", "data_label": "20/06/2025", "exposicao": 0.023543, "admin_price": 478.656019, "fundo": "ECO"}, {"data": "2025-06-23", "data_label": "23/06/2025", "exposicao": 0.023521, "admin_price": 480.754383, "fundo": "ECO"}, {"data": "2025-06-24", "data_label": "24/06/2025", "exposicao": 0.023557, "admin_price": 481.357726, "fundo": "ECO"}, {"data": "2025-06-25", "data_label": "25/06/2025", "exposicao": 0.02371, "admin_price": 481.719543, "fundo": "ECO"}, {"data": "2025-06-26", "data_label": "26/06/2025", "exposicao": 0.023734, "admin_price": 481.693298, "fundo": "ECO"}, {"data": "2025-06-27", "data_label": "27/06/2025", "exposicao": 0.02378, "admin_price": 482.550245, "fundo": "ECO"}, {"data": "2025-06-30", "data_label": "30/06/2025", "exposicao": 0.023799, "admin_price": 482.918678, "fundo": "ECO"}, {"data": "2025-07-01", "data_label": "01/07/2025", "exposicao": 0.023718, "admin_price": 483.498324, "fundo": "ECO"}, {"data": "2025-07-02", "data_label": "02/07/2025", "exposicao": 0.023777, "admin_price": 483.453098, "fundo": "ECO"}, {"data": "2025-07-03", "data_label": "03/07/2025", "exposicao": 0.023716, "admin_price": 483.789675, "fundo": "ECO"}, {"data": "2025-07-04", "data_label": "04/07/2025", "exposicao": 0.023764, "admin_price": 484.177644, "fundo": "ECO"}, {"data": "2025-07-07", "data_label": "07/07/2025", "exposicao": 0.023835, "admin_price": 485.259452, "fundo": "ECO"}, {"data": "2025-07-08", "data_label": "08/07/2025", "exposicao": 0.023896, "admin_price": 485.42765, "fundo": "ECO"}, {"data": "2025-07-09", "data_label": "09/07/2025", "exposicao": 0.023967, "admin_price": 485.965669, "fundo": "ECO"}, {"data": "2025-07-10", "data_label": "10/07/2025", "exposicao": 0.023876, "admin_price": 486.393633, "fundo": "ECO"}, {"data": "2025-07-11", "data_label": "11/07/2025", "exposicao": 0.023939, "admin_price": 486.924803, "fundo": "ECO"}, {"data": "2025-07-14", "data_label": "14/07/2025", "exposicao": 0.023907, "admin_price": 487.011096, "fundo": "ECO"}, {"data": "2025-07-15", "data_label": "15/07/2025", "exposicao": 0.023891, "admin_price": 487.627957, "fundo": "ECO"}, {"data": "2025-07-16", "data_label": "16/07/2025", "exposicao": 0.023913, "admin_price": 488.006187, "fundo": "ECO"}, {"data": "2025-07-17", "data_label": "17/07/2025", "exposicao": 0.023935, "admin_price": 487.800052, "fundo": "ECO"}, {"data": "2025-07-18", "data_label": "18/07/2025", "exposicao": 0.023994, "admin_price": 488.51733, "fundo": "ECO"}, {"data": "2025-07-21", "data_label": "21/07/2025", "exposicao": 0.023937, "admin_price": 488.522368, "fundo": "ECO"}, {"data": "2025-07-22", "data_label": "22/07/2025", "exposicao": 0.02387, "admin_price": 489.17666, "fundo": "ECO"}, {"data": "2025-07-23", "data_label": "23/07/2025", "exposicao": 0.023872, "admin_price": 489.54585, "fundo": "ECO"}, {"data": "2025-07-24", "data_label": "24/07/2025", "exposicao": 0.024009, "admin_price": 489.979877, "fundo": "ECO"}, {"data": "2025-07-25", "data_label": "25/07/2025", "exposicao": 0.023997, "admin_price": 489.940919, "fundo": "ECO"}, {"data": "2025-07-28", "data_label": "28/07/2025", "exposicao": 0.024039, "admin_price": 490.521255, "fundo": "ECO"}, {"data": "2025-07-29", "data_label": "29/07/2025", "exposicao": 0.024091, "admin_price": 490.919674, "fundo": "ECO"}, {"data": "2025-07-30", "data_label": "30/07/2025", "exposicao": 0.024044, "admin_price": 491.739986, "fundo": "ECO"}, {"data": "2025-07-31", "data_label": "31/07/2025", "exposicao": 0.024031, "admin_price": 491.895079, "fundo": "ECO"}, {"data": "2025-08-01", "data_label": "01/08/2025", "exposicao": 0.024057, "admin_price": 492.481606, "fundo": "ECO"}, {"data": "2025-08-04", "data_label": "04/08/2025", "exposicao": 0.024097, "admin_price": 492.93579, "fundo": "ECO"}, {"data": "2025-08-05", "data_label": "05/08/2025", "exposicao": 0.024203, "admin_price": 493.47527, "fundo": "ECO"}, {"data": "2025-08-06", "data_label": "06/08/2025", "exposicao": 0.024202, "admin_price": 493.59515, "fundo": "ECO"}, {"data": "2025-08-07", "data_label": "07/08/2025", "exposicao": 0.024151, "admin_price": 493.919179, "fundo": "ECO"}, {"data": "2025-08-08", "data_label": "08/08/2025", "exposicao": 0.024054, "admin_price": 491.769009, "fundo": "ECO"}, {"data": "2025-08-11", "data_label": "11/08/2025", "exposicao": 0.025712, "admin_price": 493.533037, "fundo": "ECO"}, {"data": "2025-08-12", "data_label": "12/08/2025", "exposicao": 0.025791, "admin_price": 494.650139, "fundo": "ECO"}, {"data": "2025-08-13", "data_label": "13/08/2025", "exposicao": 0.025912, "admin_price": 495.620955, "fundo": "ECO"}, {"data": "2025-08-14", "data_label": "14/08/2025", "exposicao": 0.025845, "admin_price": 496.297103, "fundo": "ECO"}, {"data": "2025-08-15", "data_label": "15/08/2025", "exposicao": 0.025939, "admin_price": 496.756649, "fundo": "ECO"}, {"data": "2025-08-18", "data_label": "18/08/2025", "exposicao": 0.025789, "admin_price": 495.45794, "fundo": "ECO"}, {"data": "2025-08-19", "data_label": "19/08/2025", "exposicao": 0.025835, "admin_price": 496.538868, "fundo": "ECO"}, {"data": "2025-08-20", "data_label": "20/08/2025", "exposicao": 0.025934, "admin_price": 498.08776, "fundo": "ECO"}, {"data": "2025-08-21", "data_label": "21/08/2025", "exposicao": 0.025904, "admin_price": 497.209213, "fundo": "ECO"}, {"data": "2025-08-22", "data_label": "22/08/2025", "exposicao": 0.02601, "admin_price": 498.214713, "fundo": "ECO"}, {"data": "2025-08-25", "data_label": "25/08/2025", "exposicao": 0.025954, "admin_price": 497.906062, "fundo": "ECO"}, {"data": "2025-08-26", "data_label": "26/08/2025", "exposicao": 0.025964, "admin_price": 498.83929, "fundo": "ECO"}, {"data": "2025-08-27", "data_label": "27/08/2025", "exposicao": 0.025992, "admin_price": 498.44893, "fundo": "ECO"}, {"data": "2025-08-28", "data_label": "28/08/2025", "exposicao": 0.026026, "admin_price": 499.127161, "fundo": "ECO"}, {"data": "2025-08-29", "data_label": "29/08/2025", "exposicao": 0.026018, "admin_price": 499.581848, "fundo": "ECO"}, {"data": "2025-09-01", "data_label": "01/09/2025", "exposicao": 0.026003, "admin_price": 499.545749, "fundo": "ECO"}, {"data": "2025-09-02", "data_label": "02/09/2025", "exposicao": 0.026067, "admin_price": 499.599982, "fundo": "ECO"}, {"data": "2025-09-03", "data_label": "03/09/2025", "exposicao": 0.026089, "admin_price": 500.035001, "fundo": "ECO"}, {"data": "2025-09-04", "data_label": "04/09/2025", "exposicao": 0.026125, "admin_price": 500.503563, "fundo": "ECO"}, {"data": "2025-09-05", "data_label": "05/09/2025", "exposicao": 0.025958, "admin_price": 497.604984, "fundo": "ECO"}, {"data": "2025-09-08", "data_label": "08/09/2025", "exposicao": 0.025998, "admin_price": 500.162259, "fundo": "ECO"}, {"data": "2025-09-09", "data_label": "09/09/2025", "exposicao": 0.025969, "admin_price": 500.737938, "fundo": "ECO"}, {"data": "2025-09-10", "data_label": "10/09/2025", "exposicao": 0.025972, "admin_price": 501.291702, "fundo": "ECO"}, {"data": "2025-09-11", "data_label": "11/09/2025", "exposicao": 0.025895, "admin_price": 501.080707, "fundo": "ECO"}, {"data": "2025-09-15", "data_label": "15/09/2025", "exposicao": 0.025842, "admin_price": 500.878185, "fundo": "ECO"}, {"data": "2025-09-16", "data_label": "16/09/2025", "exposicao": 0.025843, "admin_price": 501.012083, "fundo": "ECO"}, {"data": "2025-09-17", "data_label": "17/09/2025", "exposicao": 0.02593, "admin_price": 501.065114, "fundo": "ECO"}, {"data": "2025-09-18", "data_label": "18/09/2025", "exposicao": 0.025989, "admin_price": 501.471672, "fundo": "ECO"}, {"data": "2025-09-19", "data_label": "19/09/2025", "exposicao": 0.025968, "admin_price": 502.153585, "fundo": "ECO"}, {"data": "2025-09-22", "data_label": "22/09/2025", "exposicao": 0.025959, "admin_price": 502.659841, "fundo": "ECO"}, {"data": "2025-09-23", "data_label": "23/09/2025", "exposicao": 0.02593, "admin_price": 501.854325, "fundo": "ECO"}, {"data": "2025-09-24", "data_label": "24/09/2025", "exposicao": 0.026036, "admin_price": 506.116439, "fundo": "ECO"}, {"data": "2025-09-25", "data_label": "25/09/2025", "exposicao": 0.026001, "admin_price": 505.599091, "fundo": "ECO"}, {"data": "2025-09-26", "data_label": "26/09/2025", "exposicao": 0.02574, "admin_price": 503.47811, "fundo": "ECO"}, {"data": "2025-09-29", "data_label": "29/09/2025", "exposicao": 0.02612, "admin_price": 503.103995, "fundo": "ECO"}, {"data": "2025-09-30", "data_label": "30/09/2025", "exposicao": 0.026259, "admin_price": 503.857418, "fundo": "ECO"}, {"data": "2025-10-01", "data_label": "01/10/2025", "exposicao": 0.026421, "admin_price": 506.279052, "fundo": "ECO"}, {"data": "2025-10-02", "data_label": "02/10/2025", "exposicao": 0.026462, "admin_price": 506.495629, "fundo": "ECO"}, {"data": "2025-10-03", "data_label": "03/10/2025", "exposicao": 0.02648, "admin_price": 507.488027, "fundo": "ECO"}, {"data": "2025-10-06", "data_label": "06/10/2025", "exposicao": 0.027146, "admin_price": 505.900461, "fundo": "ECO"}, {"data": "2025-10-07", "data_label": "07/10/2025", "exposicao": 0.027154, "admin_price": 507.963131, "fundo": "ECO"}, {"data": "2025-10-08", "data_label": "08/10/2025", "exposicao": 0.027308, "admin_price": 510.10603, "fundo": "ECO"}, {"data": "2025-10-09", "data_label": "09/10/2025", "exposicao": 0.026786, "admin_price": 501.925298, "fundo": "ECO"}, {"data": "2025-10-10", "data_label": "10/10/2025", "exposicao": 0.026206, "admin_price": 492.583246, "fundo": "ECO"}, {"data": "2025-10-13", "data_label": "13/10/2025", "exposicao": 0.026198, "admin_price": 491.721559, "fundo": "ECO"}, {"data": "2025-10-14", "data_label": "14/10/2025", "exposicao": 0.026361, "admin_price": 491.178067, "fundo": "ECO"}, {"data": "2025-10-15", "data_label": "15/10/2025", "exposicao": 0.026151, "admin_price": 489.406159, "fundo": "ECO"}, {"data": "2025-10-16", "data_label": "16/10/2025", "exposicao": 0.026415, "admin_price": 491.427514, "fundo": "ECO"}, {"data": "2025-10-17", "data_label": "17/10/2025", "exposicao": 0.026488, "admin_price": 491.914617, "fundo": "ECO"}, {"data": "2025-10-20", "data_label": "20/10/2025", "exposicao": 0.02607, "admin_price": 486.344546, "fundo": "ECO"}, {"data": "2025-10-21", "data_label": "21/10/2025", "exposicao": 0.026051, "admin_price": 486.393007, "fundo": "ECO"}, {"data": "2025-10-22", "data_label": "22/10/2025", "exposicao": 0.026075, "admin_price": 486.732135, "fundo": "ECO"}, {"data": "2025-10-23", "data_label": "23/10/2025", "exposicao": 0.025529, "admin_price": 479.02586, "fundo": "ECO"}, {"data": "2025-10-24", "data_label": "24/10/2025", "exposicao": 0.025254, "admin_price": 471.284723, "fundo": "ECO"}, {"data": "2025-10-27", "data_label": "27/10/2025", "exposicao": 0.025103, "admin_price": 465.898198, "fundo": "ECO"}, {"data": "2025-10-28", "data_label": "28/10/2025", "exposicao": 0.025147, "admin_price": 467.941622, "fundo": "ECO"}, {"data": "2025-10-29", "data_label": "29/10/2025", "exposicao": 0.0253, "admin_price": 471.860483, "fundo": "ECO"}, {"data": "2025-10-30", "data_label": "30/10/2025", "exposicao": 0.025257, "admin_price": 472.728471, "fundo": "ECO"}, {"data": "2025-10-31", "data_label": "31/10/2025", "exposicao": 0.025375, "admin_price": 471.650234, "fundo": "ECO"}, {"data": "2025-11-03", "data_label": "03/11/2025", "exposicao": 0.025372, "admin_price": 474.518284, "fundo": "ECO"}, {"data": "2025-11-04", "data_label": "04/11/2025", "exposicao": 0.025581, "admin_price": 476.493612, "fundo": "ECO"}, {"data": "2025-11-05", "data_label": "05/11/2025", "exposicao": 0.025205, "admin_price": 477.685141, "fundo": "ECO"}, {"data": "2025-11-06", "data_label": "06/11/2025", "exposicao": 0.025179, "admin_price": 477.111704, "fundo": "ECO"}, {"data": "2025-11-07", "data_label": "07/11/2025", "exposicao": 0.025058, "admin_price": 476.205216, "fundo": "ECO"}, {"data": "2025-11-10", "data_label": "10/11/2025", "exposicao": 0.022846, "admin_price": 437.960806, "fundo": "ECO"}, {"data": "2025-11-11", "data_label": "11/11/2025", "exposicao": 0.022967, "admin_price": 439.430604, "fundo": "ECO"}, {"data": "2025-11-12", "data_label": "12/11/2025", "exposicao": 0.022986, "admin_price": 441.093102, "fundo": "ECO"}, {"data": "2025-11-13", "data_label": "13/11/2025", "exposicao": 0.02329, "admin_price": 446.105541, "fundo": "ECO"}, {"data": "2025-11-14", "data_label": "14/11/2025", "exposicao": 0.023327, "admin_price": 446.976406, "fundo": "ECO"}, {"data": "2025-11-17", "data_label": "17/11/2025", "exposicao": 0.023369, "admin_price": 448.402232, "fundo": "ECO"}, {"data": "2025-11-18", "data_label": "18/11/2025", "exposicao": 0.029237, "admin_price": 449.015319, "fundo": "ECO"}, {"data": "2025-11-19", "data_label": "19/11/2025", "exposicao": 0.029256, "admin_price": 448.852313, "fundo": "ECO"}, {"data": "2025-11-21", "data_label": "21/11/2025", "exposicao": 0.029514, "admin_price": 451.363098, "fundo": "ECO"}, {"data": "2025-11-24", "data_label": "24/11/2025", "exposicao": 0.029532, "admin_price": 451.521707, "fundo": "ECO"}, {"data": "2025-11-25", "data_label": "25/11/2025", "exposicao": 0.029422, "admin_price": 452.631082, "fundo": "ECO"}, {"data": "2025-11-27", "data_label": "27/11/2025", "exposicao": 0.029516, "admin_price": 453.771427, "fundo": "ECO"}, {"data": "2025-11-28", "data_label": "28/11/2025", "exposicao": 0.030128, "admin_price": 457.559204, "fundo": "ECO"}, {"data": "2025-12-01", "data_label": "01/12/2025", "exposicao": 0.030816, "admin_price": 464.002827, "fundo": "ECO"}, {"data": "2025-12-02", "data_label": "02/12/2025", "exposicao": 0.03092, "admin_price": 464.457528, "fundo": "ECO"}, {"data": "2025-12-03", "data_label": "03/12/2025", "exposicao": 0.031, "admin_price": 465.317996, "fundo": "ECO"}, {"data": "2025-12-04", "data_label": "04/12/2025", "exposicao": 0.030913, "admin_price": 465.412395, "fundo": "ECO"}, {"data": "2025-12-05", "data_label": "05/12/2025", "exposicao": 0.030949, "admin_price": 465.500643, "fundo": "ECO"}, {"data": "2025-12-09", "data_label": "09/12/2025", "exposicao": 0.030825, "admin_price": 465.060473, "fundo": "ECO"}, {"data": "2025-12-11", "data_label": "11/12/2025", "exposicao": 0.031007, "admin_price": 466.601997, "fundo": "ECO"}, {"data": "2025-12-12", "data_label": "12/12/2025", "exposicao": 0.031136, "admin_price": 468.143565, "fundo": "ECO"}, {"data": "2025-12-15", "data_label": "15/12/2025", "exposicao": 0.031106, "admin_price": 466.747511, "fundo": "ECO"}, {"data": "2025-12-16", "data_label": "16/12/2025", "exposicao": 0.03106, "admin_price": 466.286181, "fundo": "ECO"}, {"data": "2025-12-17", "data_label": "17/12/2025", "exposicao": 0.031159, "admin_price": 466.411045, "fundo": "ECO"}, {"data": "2025-12-18", "data_label": "18/12/2025", "exposicao": 0.031362, "admin_price": 468.860676, "fundo": "ECO"}, {"data": "2025-12-19", "data_label": "19/12/2025", "exposicao": 0.031425, "admin_price": 471.417256, "fundo": "ECO"}, {"data": "2025-12-22", "data_label": "22/12/2025", "exposicao": 0.031724, "admin_price": 475.244552, "fundo": "ECO"}, {"data": "2025-12-23", "data_label": "23/12/2025", "exposicao": 0.031938, "admin_price": 477.790326, "fundo": "ECO"}, {"data": "2025-12-24", "data_label": "24/12/2025", "exposicao": 0.031955, "admin_price": 478.418296, "fundo": "ECO"}, {"data": "2025-12-26", "data_label": "26/12/2025", "exposicao": 0.032148, "admin_price": 480.250352, "fundo": "ECO"}, {"data": "2025-12-29", "data_label": "29/12/2025", "exposicao": 0.032327, "admin_price": 481.014879, "fundo": "ECO"}, {"data": "2025-12-30", "data_label": "30/12/2025", "exposicao": 0.032432, "admin_price": 482.856185, "fundo": "ECO"}, {"data": "2025-12-31", "data_label": "31/12/2025", "exposicao": 0.032462, "admin_price": 483.461735, "fundo": "ECO"}, {"data": "2026-01-02", "data_label": "02/01/2026", "exposicao": 0.032448, "admin_price": 483.64759, "fundo": "ECO"}, {"data": "2026-01-05", "data_label": "05/01/2026", "exposicao": 0.032633, "admin_price": 484.47899, "fundo": "ECO"}, {"data": "2026-01-06", "data_label": "06/01/2026", "exposicao": 0.032525, "admin_price": 485.099033, "fundo": "ECO"}, {"data": "2026-01-07", "data_label": "07/01/2026", "exposicao": 0.03266, "admin_price": 487.328174, "fundo": "ECO"}, {"data": "2026-01-08", "data_label": "08/01/2026", "exposicao": 0.032608, "admin_price": 487.645136, "fundo": "ECO"}, {"data": "2026-01-09", "data_label": "09/01/2026", "exposicao": 0.032576, "admin_price": 487.232283, "fundo": "ECO"}, {"data": "2026-01-12", "data_label": "12/01/2026", "exposicao": 0.032667, "admin_price": 487.364276, "fundo": "ECO"}, {"data": "2026-01-13", "data_label": "13/01/2026", "exposicao": 0.033357, "admin_price": 487.342463, "fundo": "ECO"}, {"data": "2026-01-14", "data_label": "14/01/2026", "exposicao": 0.033305, "admin_price": 488.343476, "fundo": "ECO"}, {"data": "2026-01-15", "data_label": "15/01/2026", "exposicao": 0.033372, "admin_price": 490.525103, "fundo": "ECO"}, {"data": "2026-01-16", "data_label": "16/01/2026", "exposicao": 0.033464, "admin_price": 491.756306, "fundo": "ECO"}, {"data": "2026-01-19", "data_label": "19/01/2026", "exposicao": 0.033341, "admin_price": 489.832203, "fundo": "ECO"}, {"data": "2026-01-20", "data_label": "20/01/2026", "exposicao": 0.033433, "admin_price": 491.550195, "fundo": "ECO"}, {"data": "2026-01-21", "data_label": "21/01/2026", "exposicao": 0.033472, "admin_price": 492.308119, "fundo": "ECO"}, {"data": "2026-01-22", "data_label": "22/01/2026", "exposicao": 0.033329, "admin_price": 490.960483, "fundo": "ECO"}, {"data": "2026-01-23", "data_label": "23/01/2026", "exposicao": 0.032003, "admin_price": 491.14039, "fundo": "ECO"}, {"data": "2026-01-26", "data_label": "26/01/2026", "exposicao": 0.031186, "admin_price": 490.646477, "fundo": "ECO"}, {"data": "2026-01-27", "data_label": "27/01/2026", "exposicao": 0.02999, "admin_price": 488.588423, "fundo": "ECO"}, {"data": "2026-01-28", "data_label": "28/01/2026", "exposicao": 0.028096, "admin_price": 488.486807, "fundo": "ECO"}, {"data": "2026-01-29", "data_label": "29/01/2026", "exposicao": 0.028115, "admin_price": 488.93098, "fundo": "ECO"}, {"data": "2026-01-30", "data_label": "30/01/2026", "exposicao": 0.027982, "admin_price": 488.75791, "fundo": "ECO"}, {"data": "2026-02-02", "data_label": "02/02/2026", "exposicao": 0.028043, "admin_price": 490.368844, "fundo": "ECO"}, {"data": "2026-02-03", "data_label": "03/02/2026", "exposicao": 0.028178, "admin_price": 493.275481, "fundo": "ECO"}, {"data": "2026-02-04", "data_label": "04/02/2026", "exposicao": 0.028287, "admin_price": 494.654475, "fundo": "ECO"}, {"data": "2026-02-05", "data_label": "05/02/2026", "exposicao": 0.028101, "admin_price": 495.030335, "fundo": "ECO"}, {"data": "2026-02-06", "data_label": "06/02/2026", "exposicao": 0.028145, "admin_price": 495.656778, "fundo": "ECO"}, {"data": "2026-02-09", "data_label": "09/02/2026", "exposicao": 0.028151, "admin_price": 496.477608, "fundo": "ECO"}, {"data": "2026-02-10", "data_label": "10/02/2026", "exposicao": 0.028094, "admin_price": 497.564503, "fundo": "ECO"}, {"data": "2026-02-11", "data_label": "11/02/2026", "exposicao": 0.028222, "admin_price": 498.287303, "fundo": "ECO"}, {"data": "2026-02-12", "data_label": "12/02/2026", "exposicao": 0.028268, "admin_price": 498.280205, "fundo": "ECO"}, {"data": "2026-02-13", "data_label": "13/02/2026", "exposicao": 0.028421, "admin_price": 498.956737, "fundo": "ECO"}, {"data": "2026-02-18", "data_label": "18/02/2026", "exposicao": 0.028633, "admin_price": 500.585903, "fundo": "ECO"}, {"data": "2026-02-19", "data_label": "19/02/2026", "exposicao": 0.028598, "admin_price": 501.365773, "fundo": "ECO"}, {"data": "2026-02-20", "data_label": "20/02/2026", "exposicao": 0.028455, "admin_price": 499.508701, "fundo": "ECO"}, {"data": "2026-02-23", "data_label": "23/02/2026", "exposicao": 0.026446, "admin_price": 496.339214, "fundo": "ECO"}, {"data": "2026-02-24", "data_label": "24/02/2026", "exposicao": 0.02657, "admin_price": 499.818631, "fundo": "ECO"}, {"data": "2026-02-25", "data_label": "25/02/2026", "exposicao": 0.024686, "admin_price": 500.224302, "fundo": "ECO"}, {"data": "2026-02-26", "data_label": "26/02/2026", "exposicao": 0.024688, "admin_price": 501.874846, "fundo": "ECO"}, {"data": "2026-02-27", "data_label": "27/02/2026", "exposicao": 0.024615, "admin_price": 501.601315, "fundo": "ECO"}, {"data": "2026-03-02", "data_label": "02/03/2026", "exposicao": 0.024604, "admin_price": 502.244349, "fundo": "ECO"}, {"data": "2026-03-03", "data_label": "03/03/2026", "exposicao": 0.024629, "admin_price": 502.819038, "fundo": "ECO"}, {"data": "2026-03-05", "data_label": "05/03/2026", "exposicao": 0.024728, "admin_price": 504.346888, "fundo": "ECO"}, {"data": "2026-03-06", "data_label": "06/03/2026", "exposicao": 0.024864, "admin_price": 505.112542, "fundo": "ECO"}];
+const STATS = {"ultimo": 0.024864, "primeiro": 0.015094, "min": 0.014746, "max": 0.050793, "pico": 0.050793, "media": 0.033241, "count": 641, "reducao_pct": 51.05};
+const CUPONS_DATA = [{"data": "2023-11-10", "data_label": "10/11/2023", "cupom": 1086729.7, "cupom_unit": 74.310115, "cupom_acum": 1086729.7}, {"data": "2024-05-10", "data_label": "10/05/2024", "cupom": 1084413.39, "cupom_unit": 62.48713, "cupom_acum": 2171143.09}, {"data": "2024-11-11", "data_label": "11/11/2024", "cupom": 1308231.12, "cupom_unit": 56.025469, "cupom_acum": 3479374.21}, {"data": "2025-05-12", "data_label": "12/05/2025", "cupom": 15342225.15, "cupom_unit": 568.213753, "cupom_acum": 18821599.35}, {"data": "2025-11-10", "data_label": "10/11/2025", "cupom": 1206052.14, "cupom_unit": 41.365504, "cupom_acum": 20027651.49}];
+const CUPONS_STATS = {"total": 20027651.5, "count": 5, "media": 4005530.3, "min": 1084413.39, "max": 15342225.15, "primeiro_cupom": 1086729.7, "ultimo_cupom": 1206052.14, "unit_media": 160.480394, "unit_ultimo": 41.365504};
+
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+let filteredData = [...RAW_DATA];
+let chartExposicao = null;
+let chartCupons = null;
+
+// ═══════════════════════════════════════════════════════════════
+// FORMAT HELPERS
+// ═══════════════════════════════════════════════════════════════
+function fmtPct(val, dec) {
+    if (val === null || val === undefined) return '—';
+    dec = dec !== undefined ? dec : 4;
+    return (val * 100).toFixed(dec).replace('.', ',') + '%';
+}
+
+function fmtNum(val, dec) {
+    if (val === null || val === undefined) return '—';
+    dec = dec !== undefined ? dec : 6;
+    return val.toFixed(dec).replace('.', ',');
+}
+
+function fmtBRL(val) {
+    if (val === null || val === undefined) return '—';
+    return 'R$ ' + val.toFixed(6).replace('.', ',');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PERIOD FILTERS — EXPOSIÇÃO
+// ═══════════════════════════════════════════════════════════════
+function setPeriod(days) {
+    document.querySelectorAll('.period-btns .btn').forEach(b => b.classList.remove('active'));
+    if (event && event.target) event.target.classList.add('active');
+
+    if (days === 0) {
+        filteredData = [...RAW_DATA];
+    } else {
+        const cutoff = new Date();
+        cutoff.setDate(cutoff.getDate() - days);
+        const cutoffStr = cutoff.toISOString().slice(0, 10);
+        filteredData = RAW_DATA.filter(d => d.data >= cutoffStr);
+    }
+
+    if (filteredData.length > 0) {
+        document.getElementById('dt-ini').value = filteredData[0].data;
+        document.getElementById('dt-fim').value = filteredData[filteredData.length - 1].data;
+    }
+
+    renderExposicao();
+}
+
+function applyDateFilter() {
+    const dtIni = document.getElementById('dt-ini').value;
+    const dtFim = document.getElementById('dt-fim').value;
+    filteredData = RAW_DATA.filter(d => {
+        if (dtIni && d.data < dtIni) return false;
+        if (dtFim && d.data > dtFim) return false;
+        return true;
+    });
+    document.querySelectorAll('.period-btns .btn').forEach(b => b.classList.remove('active'));
+    renderExposicao();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER: HIGHLIGHTS (EXPOSIÇÃO)
+// ═══════════════════════════════════════════════════════════════
+function renderHighlights() {
+    const el = document.getElementById('hl-main');
+    const reducao = STATS.reducao_pct;
+    const reducaoCls = reducao > 0 ? 'green' : 'red';
+
+    el.innerHTML = `
+        <div class="hl-card orange">
+            <div class="hl-label">Exposição Atual</div>
+            <div class="hl-value">${fmtPct(STATS.ultimo)}</div>
+            <div class="hl-sub">% do PL do Fundo</div>
+        </div>
+        <div class="hl-card red">
+            <div class="hl-label">Pico da Exposição</div>
+            <div class="hl-value">${fmtPct(STATS.pico)}</div>
+            <div class="hl-sub">Máximo histórico</div>
+        </div>
+        <div class="hl-card ${reducaoCls}">
+            <div class="hl-label">Redução do Pico</div>
+            <div class="hl-value">${STATS.reducao_pct.toFixed(1).replace('.', ',')}%</div>
+            <div class="hl-sub">Gestão ativa de risco</div>
+        </div>
+    `;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER: KPI STRIP
+// ═══════════════════════════════════════════════════════════════
+function renderKPIs() {
+    const el = document.getElementById('kpi-detail');
+
+    function kpiBox(label, val, cls, sub) {
+        return `<div class="kpi-box">
+            <div class="label">${label}</div>
+            <div class="value ${cls}">${val}</div>
+            <div class="sub">${sub || ''}</div>
+        </div>`;
+    }
+
+    el.innerHTML =
+        kpiBox('Exposição Inicial', fmtPct(STATS.primeiro), '', 'Primeira data') +
+        kpiBox('Exposição Atual', fmtPct(STATS.ultimo), 'orange', 'Última data') +
+        kpiBox('Mínima', fmtPct(STATS.min), 'green', 'histórico') +
+        kpiBox('Máxima (Pico)', fmtPct(STATS.max), 'red', 'histórico') +
+        kpiBox('Média', fmtPct(STATS.media), 'cyan', 'histórico') +
+        kpiBox('Registros', STATS.count.toLocaleString('pt-BR'), 'blue', 'dias úteis');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER: PROGRESS BAR
+// ═══════════════════════════════════════════════════════════════
+function renderProgressBar() {
+    const reducao = STATS.reducao_pct;
+    document.getElementById('prog-pico').textContent = fmtPct(STATS.pico);
+    document.getElementById('prog-atual').textContent = fmtPct(STATS.ultimo);
+    document.getElementById('prog-bar').style.width = Math.min(reducao, 100) + '%';
+    document.getElementById('prog-bar').textContent = reducao.toFixed(1) + '% reduzido';
+    document.getElementById('prog-label').textContent =
+        'Exposição reduzida em ' + reducao.toFixed(1).replace('.', ',') +
+        '% desde o pico — Gestão ativa de risco em andamento';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER: EXPOSIÇÃO CHART
+// ═══════════════════════════════════════════════════════════════
+function renderChartExposicao() {
+    if (chartExposicao) chartExposicao.destroy();
+
+    const ctx = document.getElementById('chart-exposicao').getContext('2d');
+    const labels = filteredData.map(d => d.data);
+    const values = filteredData.map(d => d.exposicao !== null ? (d.exposicao * 100) : null);
+
+    chartExposicao = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Exposição (% PL)',
+                data: values,
+                borderColor: '#2FB909',
+                backgroundColor: 'rgba(47,185,9,0.08)',
+                borderWidth: 2.5,
+                pointRadius: 0,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: '#2FB909',
+                tension: 0.3,
+                fill: true,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#ffffff',
+                    titleColor: '#1f2937',
+                    bodyColor: '#4b5563',
+                    borderColor: '#e5e7eb',
+                    borderWidth: 1,
+                    padding: 12,
+                    titleFont: { family: "'Inter'" },
+                    bodyFont: { family: "'Inter'", size: 12 },
+                    callbacks: {
+                        title: function(items) {
+                            const idx = items[0].dataIndex;
+                            return filteredData[idx].data_label;
+                        },
+                        label: function(ctx) {
+                            return 'Exposição: ' + (ctx.parsed.y !== null ? ctx.parsed.y.toFixed(4).replace('.', ',') + '%' : '—');
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        parser: 'yyyy-MM-dd',
+                        tooltipFormat: 'dd/MM/yyyy',
+                        unit: filteredData.length > 500 ? 'month' : (filteredData.length > 90 ? 'week' : 'day'),
+                        displayFormats: {
+                            day: 'dd/MM',
+                            week: 'dd/MM',
+                            month: 'MMM/yy'
+                        }
+                    },
+                    grid: { color: '#f3f4f6', drawBorder: false },
+                    ticks: { color: '#9ca3af', font: { size: 10, family: "'Inter'" }, maxRotation: 0 }
+                },
+                y: {
+                    grid: { color: '#f3f4f6', drawBorder: false },
+                    ticks: {
+                        color: '#9ca3af',
+                        font: { size: 11, family: "'Inter'" },
+                        callback: function(val) { return val.toFixed(2) + '%'; }
+                    }
+                }
+            }
+        }
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER FUNCTIONS
+// ═══════════════════════════════════════════════════════════════
+function renderExposicao() {
+    renderHighlights();
+    renderKPIs();
+    renderProgressBar();
+    renderChartExposicao();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CUPONS: RENDER
+// ═══════════════════════════════════════════════════════════════
+function fmtBRL2(val) {
+    if (val === null || val === undefined) return '—';
+    return 'R$ ' + val.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+}
+
+function renderCuponsKPIs() {
+    const el = document.getElementById('hl-cupons');
+    if (!CUPONS_STATS || !CUPONS_STATS.count) {
+        el.innerHTML = '<div class="hl-card blue"><div class="hl-label">Sem dados</div><div class="hl-value">—</div></div>';
+        return;
+    }
+    const s = CUPONS_STATS;
+    el.innerHTML = `
+        <div class="hl-card green">
+            <div class="hl-label">Total Recebido</div>
+            <div class="hl-value">${fmtBRL2(s.total)}</div>
+            <div class="hl-sub">Soma de todos os cupons</div>
+        </div>
+        <div class="hl-card blue">
+            <div class="hl-label">Pagamentos</div>
+            <div class="hl-value">${s.count}</div>
+            <div class="hl-sub">Dias com cupom</div>
+        </div>
+        <div class="hl-card cyan">
+            <div class="hl-label">Cupom Unitário Médio</div>
+            <div class="hl-value">${fmtBRL(s.unit_media)}</div>
+            <div class="hl-sub">SOPHIS / Quantidade</div>
+        </div>
+        <div class="hl-card orange">
+            <div class="hl-label">Último Cupom Unitário</div>
+            <div class="hl-value">${fmtBRL(s.unit_ultimo)}</div>
+            <div class="hl-sub">Pagamento mais recente</div>
+        </div>
+    `;
+}
+
+function renderChartCupons() {
+    if (chartCupons) chartCupons.destroy();
+
+    const ctx = document.getElementById('chart-cupons').getContext('2d');
+    const labels = CUPONS_DATA.map(d => d.data);
+    const cupomVals = CUPONS_DATA.map(d => d.cupom);
+    const acumVals = CUPONS_DATA.map(d => d.cupom_acum);
+
+    chartCupons = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Cupom Individual (R$)',
+                    data: cupomVals,
+                    backgroundColor: 'rgba(47,185,9,0.7)',
+                    borderColor: '#2FB909',
+                    borderWidth: 1,
+                    borderRadius: 4,
+                    order: 2,
+                    yAxisID: 'y',
+                },
+                {
+                    label: 'Acumulado (R$)',
+                    data: acumVals,
+                    type: 'line',
+                    borderColor: '#1a7a06',
+                    backgroundColor: 'rgba(26,122,6,0.08)',
+                    borderWidth: 2.5,
+                    pointRadius: 3,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: '#1a7a06',
+                    tension: 0.3,
+                    fill: true,
+                    order: 1,
+                    yAxisID: 'y1',
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#ffffff',
+                    titleColor: '#1f2937',
+                    bodyColor: '#4b5563',
+                    borderColor: '#e5e7eb',
+                    borderWidth: 1,
+                    padding: 12,
+                    titleFont: { family: "'Inter'" },
+                    bodyFont: { family: "'Inter'", size: 12 },
+                    callbacks: {
+                        title: function(items) {
+                            const idx = items[0].dataIndex;
+                            return CUPONS_DATA[idx].data_label;
+                        },
+                        afterTitle: function(items) {
+                            const idx = items[0].dataIndex;
+                            const u = CUPONS_DATA[idx].cupom_unit;
+                            return 'Cupom Unitário: R$ ' + (u !== null ? u.toFixed(6).replace('.', ',') : '—');
+                        },
+                        label: function(ctx) {
+                            const val = ctx.parsed.y;
+                            const prefix = ctx.dataset.label;
+                            return prefix + ': R$ ' + (val !== null ? val.toFixed(2).replace('.', ',') : '—');
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        parser: 'yyyy-MM-dd',
+                        tooltipFormat: 'dd/MM/yyyy',
+                        unit: CUPONS_DATA.length > 20 ? 'month' : 'day',
+                        displayFormats: {
+                            day: 'dd/MM',
+                            week: 'dd/MM',
+                            month: 'MMM/yy'
+                        }
+                    },
+                    grid: { color: '#f3f4f6', drawBorder: false },
+                    ticks: { color: '#9ca3af', font: { size: 10, family: "'Inter'" }, maxRotation: 0 }
+                },
+                y: {
+                    position: 'left',
+                    grid: { color: '#f3f4f6', drawBorder: false },
+                    title: { display: true, text: 'Cupom Individual (R$)', color: '#9ca3af', font: { size: 11, family: "'Inter'" } },
+                    ticks: {
+                        color: '#9ca3af',
+                        font: { size: 11, family: "'Inter'" },
+                        callback: function(val) { return 'R$ ' + val.toFixed(0); }
+                    }
+                },
+                y1: {
+                    position: 'right',
+                    grid: { drawOnChartArea: false },
+                    title: { display: true, text: 'Acumulado (R$)', color: '#9ca3af', font: { size: 11, family: "'Inter'" } },
+                    ticks: {
+                        color: '#9ca3af',
+                        font: { size: 11, family: "'Inter'" },
+                        callback: function(val) { return 'R$ ' + val.toFixed(0); }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function renderCupons() {
+    renderCuponsKPIs();
+    renderChartCupons();
+}
+
+function renderAll() {
+    renderExposicao();
+    renderCupons();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+(function init() {
+    filteredData = [...RAW_DATA];
+
+    if (filteredData.length > 0) {
+        document.getElementById('dt-ini').value = filteredData[0].data;
+        document.getElementById('dt-fim').value = filteredData[filteredData.length - 1].data;
+    }
+
+    renderAll();
+})();
+</script>
+</body>
+</html>
